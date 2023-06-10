@@ -1,3 +1,4 @@
+import art
 def  add(a,b):
     return a+b
 
@@ -39,6 +40,7 @@ def  get_number(prompt):
     return int(input(f"Enter {prompt} number: "))
 
 def calculate():
+    print (art.logo)
     keep_asking = True
     while keep_asking:
         num1 = get_number("first")
