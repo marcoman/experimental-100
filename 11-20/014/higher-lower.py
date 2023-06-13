@@ -85,7 +85,7 @@ class Game:
 
             self.print_account_data(self.account_a)
             # Show the second
-            print (f'Who has more followers?  \n\tA: {self.get_account_name(self.account_a)} or  B: {self.get_account_name(self.account_b)}?')
+            print (f'A: {self.get_account_name(self.account_a)} \n{self.VS}  B: {self.get_account_name(self.account_b)}?')
 
             # get the answer from the user
             answer = input("Type 'A' or 'B': ").upper()
