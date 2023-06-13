@@ -20,9 +20,15 @@ TOO_LOW = "Too low."
 
 
 def generate_random_number():
+    '''
+    This function returns a random number between 1 and 100
+    '''
     return random.randint(1, 100)
 
-def get_difficulty():
+def get_number_tries():
+    '''
+    This function returns the number of attempts for the user to guess the number, based on their difficulty
+    '''
     attempts = 0
     level = input("Choose a difficulty. Type 'easy' or 'hard': ")
     if level == "easy":
@@ -38,7 +44,7 @@ def play_game():
     print(INSTRUCTIONS)
 
     random_number = generate_random_number()
-    attempts = get_difficulty()
+    attempts = get_number_tries()
     if attempts > 0:
         playing = True
     else:
