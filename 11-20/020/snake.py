@@ -20,6 +20,7 @@ class Snake:
     def __init__(self):
         self.snake = []
         self.myscreen = turtle.Screen()
+        self.addListeners()
 
         for i in range(3):
             newpart = turtle.Turtle()
@@ -41,6 +42,25 @@ class Snake:
         self.myscreen.title("Snake Game")
         self.myscreen.update()
 
+    def addListeners(self):
+        self.myscreen.listen()
+        self.myscreen.onkey(key="w", fun=self.moveup)
+        self.myscreen.onkey(key="s", fun=self.movedown)
+        self.myscreen.onkey(key="a", fun=self.moveleft)
+        self.myscreen.onkey(key="d", fun=self.moveright)
+
+    def moveup(self):
+        self.snake[0].setheading(90)
+
+    def movedown(self):
+        self.snake[0].setheading(270)
+
+    def moveleft(self):
+        self.snake[0].setheading(180)
+
+    def moveright(self):
+        self.snake[0].setheading(0)
+
     def playgame(self):
         gameon = True
         limit = 100
@@ -50,14 +70,6 @@ class Snake:
             self.myscreen.tracer(0)
             for part in reversed(self.snake):
                 if self.snake.index(part) == 0:
-                    if part.xcor() + self.GAPSIZE > int(self.SIZE_X/2):
-                        part.left(90)
-                    elif part.ycor() + self.GAPSIZE > int(self.SIZE_Y/2):
-                        part.left(90)
-                    elif part.xcor() - self.GAPSIZE < -int(self.SIZE_X/2):
-                        part.left(90)
-                    elif part.ycor() - self.GAPSIZE < -int(self.SIZE_Y/2):
-                        part.left(90)
                     part.forward(self.STEPSIZE)
                 else:
                     part.goto(self.snake[self.snake.index(part)-1].xcor(), 
