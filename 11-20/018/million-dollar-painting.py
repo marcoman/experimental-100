@@ -9,9 +9,9 @@ myscreen = turtle.Screen()
 import colorgram
 
 rgb_colors = []
-colors = colorgram.extract('image.jpg', 30)
+colors = colorgram.extract('image.jpg', 10)
 for color in colors:
-    rgb_colors.append(color.rgb)
+    rgb_colors.append((color.rgb.r, color.rgb.g, color.rgb.b))
 
 print(rgb_colors)
 
@@ -32,7 +32,8 @@ class MillionDollarPainting():
     def turn_random(self):
         self.turtle.right(random.randint(0,360))
     def change_color(self):
-        self.turtle.color(random.randint(0,255), random.randint(0,255), random.randint(0,255))
+        # self.turtle.color(random.randint(0,255), random.randint(0,255), random.randint(0,255))
+        self.turtle.color(random.choice(rgb_colors))
 
     def change_speed(self, speed):
         self.turtle.speed(speed)
@@ -62,10 +63,10 @@ class MillionDollarPainting():
 
     def draw_painting(self):
 
-        for _ in range(15):
+        for _ in range(10):
             self.turtle.setx(0)
             self.turtle.sety(_ * self.gapsize)
-            self.draw_dotted_line(15)
+            self.draw_dotted_line(10)
             self.turtle.penup()
 
 myturtle = MillionDollarPainting()
