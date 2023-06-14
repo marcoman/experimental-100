@@ -16,7 +16,7 @@ for color in colors:
 print(rgb_colors)
 
 class MillionDollarPainting():
-    gapsize = 20
+    gapsize = 40
     def __init__(self):
         self.turtle = turtle.Turtle()
         turtle.colormode(255)
@@ -48,7 +48,7 @@ class MillionDollarPainting():
         for i in range(0, length):
             self.change_color()
             self.turtle.pendown()
-            self.turtle.forward(1)
+            self.turtle.dot()
             self.turtle.penup()
             self.turtle.forward(self.gapsize)
  
