@@ -62,12 +62,14 @@ class MillionDollarPainting():
         self.turtle.setheading(180)
 
     def draw_painting(self):
-
+        self.turtle.penup()
+        self.turtle.sety(-800)
         for _ in range(10):
-            self.turtle.setx(0)
+            self.turtle.setx(-400)
             self.turtle.sety(_ * self.gapsize)
             self.draw_dotted_line(10)
             self.turtle.penup()
+        self.turtle.hideturtle()
 
 myturtle = MillionDollarPainting()
 myturtle.change_speed(0)
