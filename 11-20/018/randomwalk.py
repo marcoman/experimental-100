@@ -1,12 +1,16 @@
 import turtle
 import random
 
-myscreen = turtle.Screen()
 
 class RandomWalk():
+    myscreen = turtle.Screen()
+    SCREEN_X = 600
+    SCREEN_Y = 600
+
     def __init__(self):
         self.turtle = turtle.Turtle()
         turtle.colormode(255)
+        self.myscreen.setup(self.SCREEN_X * 2, self.SCREEN_Y * 2)
         self.turtle.shape('square')
     
     def turn_north(self):
@@ -54,10 +58,10 @@ class RandomWalk():
         for _ in range(steps):
             self.change_color()
             self.turn_random()
-            self.draw_line(20)
+            self.draw_line(5)
     
     def random_walk_square(self, steps):
-        self.turtle.pensize(10)
+        self.turtle.pensize(4)
         for _ in range(steps):
             self.change_color()
             newdirection = random.randint(0,3)
@@ -69,14 +73,14 @@ class RandomWalk():
                 self.turn_south()
             else:
                 self.turn_west()
-            self.draw_line(25)
+            self.draw_line(10)
 
     def change_speed(self, speed):
         self.turtle.speed(speed)
     
 myTurtle = RandomWalk()
 myTurtle.change_speed(0)
-myTurtle.random_walk(100)
-myTurtle.random_walk_square(200)
+myTurtle.random_walk(1000)
+myTurtle.random_walk_square(1000)
 
-myscreen.exitonclick()
+myTurtle.myscreen.exitonclick()
