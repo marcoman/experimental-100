@@ -1,0 +1,4 @@
+class ScoreBoard :
+    def __init__(self) -> None:
+        pass
+
