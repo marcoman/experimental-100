@@ -54,11 +54,12 @@ class RandomWalk():
             self.turtle.forward(size)
             self.turtle.right(angle)
     
-    def random_walk(self, steps):
+    def random_walk(self, steps, stepsize):
         for _ in range(steps):
             self.change_color()
-            self.turn_random()
-            self.draw_line(5)
+            # self.turn_random()
+            self.turtle.right(random.randint(0,360))
+            self.draw_line(stepsize)
     
     def random_walk_square(self, steps):
         self.turtle.pensize(4)
@@ -80,7 +81,7 @@ class RandomWalk():
     
 myTurtle = RandomWalk()
 myTurtle.change_speed(0)
-myTurtle.random_walk(1000)
-myTurtle.random_walk_square(1000)
+myTurtle.random_walk(10000, 2)
+#myTurtle.random_walk_square(1000, 1)
 
 myTurtle.myscreen.exitonclick()
