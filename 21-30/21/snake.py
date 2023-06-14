@@ -74,11 +74,28 @@ class Snake:
         if self.snake[0].heading() != self.DIR_LEFT:    
             self.snake[0].setheading(self.DIR_RIGHT)
 
+    def addsegment(self):
+        newpart = turtle.Turtle()
+        newpart.shape("square")
+        newpart.color("white")
+        newpart.penup()
+        newpart.shapesize(stretch_wid=1, stretch_len=1, outline=1)
+        newpart.goto(self.snake[self.snake.index(self.snake[-1])-1].xcor(), 
+                    self.snake[self.snake.index(self.snake[-1])-1].ycor())
+        self.snake.append(newpart)
+        self.myscreen.update()
+
     def playgame(self):
         gameon = True
         limit = 10000
         while gameon and limit > 0:
             limit -= 1
+            # if we crash into ourselves
+            for part in self.snake[1:]:
+                if self.snake[0].distance(part) < 10:
+                    gameon = False
+
+            # if we crash with a wall
             if (self.snake[0].xcor() > self.SIZE_X/2 or 
                 self.snake[0].xcor() < -self.SIZE_X/2 or
                 self.snake[0].ycor() > self.SIZE_Y/2 or 
@@ -97,6 +114,7 @@ class Snake:
                 if self.snake[0].distance(self.food) < 15:
                     self.score += 1
                     self.food.set_random_position(self.SIZE_X, self.SIZE_Y, self.STEPSIZE)
+                    self.addsegment()
                 self.myscreen.update()
         
         self.snake[0].penup()
