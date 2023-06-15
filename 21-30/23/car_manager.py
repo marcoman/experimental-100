@@ -12,8 +12,9 @@ class CarManager():
         self.car_speed = STARTING_MOVE_DISTANCE
 
     def create_car(self):
-        random_chance = random.randint(1, 3)
+        random_chance = random.randint(1, 6)
         if random_chance == 1:
+            # print('Create car')
             new_car = turtle.Turtle("square")
             new_car.shapesize(stretch_wid=1, stretch_len=2)
             new_car.penup()
@@ -26,6 +27,7 @@ class CarManager():
         for car in self.all_cars:
             car.backward(self.car_speed)
             if car.xcor() < -300:
+                # print ('remove car')
                 self.all_cars.remove(car)   
 
     def level_up(self):
@@ -35,3 +37,5 @@ class CarManager():
         for car in self.all_cars:
             if car.distance(player) < 20:
                 return True
+            
+        return False
