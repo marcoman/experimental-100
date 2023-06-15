@@ -28,6 +28,7 @@ class CarManager():
             car.backward(self.car_speed)
             if car.xcor() < -300:
                 # print ('remove car')
+                car.hideturtle()
                 self.all_cars.remove(car)   
 
     def level_up(self):
