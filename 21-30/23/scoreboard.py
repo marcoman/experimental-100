@@ -1,19 +1,25 @@
+'''
+Created on Oct 19, 2020
+Our running score for our turtle crossing game
+'''
 import turtle
-FONT = ("Courier", 24, "normal")
-
 
 class Scoreboard (turtle.Turtle):
+    FONT = ("Courier", 24, "normal")
+    ALIGN = 'center'
+    SCORE_X = 0
+    SCORE_Y = 250
     def __init__(self):
         super().__init__()
         self.level = 1
         self.hideturtle()
         self.penup()
-        self.goto(-280, 250)
         self.update_scoreboard()
 
     def update_scoreboard(self):
         self.clear()
-        self.write(f"Level: {self.level}", align="left", font=FONT)
+        self.goto(self.SCORE_X, self.SCORE_Y)
+        self.write(f"Level: {self.level}", align=self.ALIGN, font=self.FONT)
 
     def increase_level(self):
         self.level += 1
@@ -21,4 +27,4 @@ class Scoreboard (turtle.Turtle):
 
     def game_over(self):
         self.goto(0, 0)
-        self.write("GAME OVER", align="center", font=FONT)
+        self.write("GAME OVER", align=self.ALIGN, font=self.FONT)
