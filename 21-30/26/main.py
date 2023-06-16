@@ -31,13 +31,23 @@ with open("nato_phonetic_alphabet.csv") as file:
 phonetic_dict = {row.letter: row.code for (index, row) in phonetic_data.iterrows()}
 print(phonetic_dict)
 
+def get_phonetics(word):
+    word_list= []
+    for letter in word:
+        word_list.append(phonetic_dict[letter.upper()])
+    return word_list
+
 phonetic_code_word_list = []
 #TODO 2. Create a list of the phonetic code words from a word that the user inputs.
 for (index, row) in student_data_frame.iterrows():
-    phonetic_code_word = []
-    for letter in row.student:
-        phonetic_code_word.append(phonetic_dict[letter.upper()])
-    phonetic_code_word_list.append(phonetic_code_word)
+    phonetic_code_word_list.append(get_phonetics(row.student))
 print (phonetic_code_word_list)
 
 
+keep_asking = True
+while keep_asking:
+    user_input = input("Enter a word: ").upper()
+    if user_input == "EXIT":
+        keep_asking = False
+    else:
+        print (get_phonetics(user_input ))
