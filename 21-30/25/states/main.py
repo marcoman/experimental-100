@@ -43,10 +43,13 @@ class US_States(turtle.Turtle):
         df = pd.DataFrame(self.states)
         df.to_csv("states.csv")
 
-        missing_states = []
-        for state in self.states_list:
-            if state not in self.correct_guesses:
-                missing_states.append(state)
+        # missing_states = []
+        # for state in self.states_list:
+        #     if state not in self.correct_guesses:
+        #         missing_states.append(state)
+
+        # This next line should replace the 4 above by utilizing list comprehension
+        missing_states = [state for state in self.states_list if state not in self.correct_guesses]
 
         df = pd.DataFrame(missing_states)
         df.to_csv("missing_states.csv")
