@@ -40,22 +40,23 @@ class Birthdays:
     def find_birthdays_today(self):
         td = dt.datetime.now()
 
-        today = self.birthdays[(self.birthdays['month'] == td.month) & 
+        today_birthdays = self.birthdays[(self.birthdays['month'] == td.month) & 
                                (self.birthdays['day'] == td.day)]
 
-        return today
+        return today_birthdays
 
-    def send_letter(self, name):
+    def send_letter(self, name, email):
         # get the letter
         # send the letter
         letter = random.choice(self.letters)
         newletter = str(letter).replace('[NAME]', name).replace('Angela', 'Marco')
-        self.email_letter(newletter)
+        self.email_letter(newletter, email)
 
-    def email_letter(self, letter):
+    def email_letter(self, letter, email):
         '''
         Here we would send the letter as it is passed in.
         '''
+        print (email)
         print (letter)
 
     def run(self):
@@ -73,6 +74,6 @@ class Birthdays:
         print (bd_today)
         for bd in bd_today:
             print (f'Sending birthday letter to {bd["name"]}')
-            self.send_letter(bd["name"])
+            self.send_letter(bd["name"], bd["email"])
 
         
