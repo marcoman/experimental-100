@@ -121,10 +121,11 @@ class FlashCard:
 
 
     def wrong_button_clicked(self):
+        # I may not need this since we don't really need to do anything here.  We store the original file.
         self.mywindow.after_cancel(self.mytimer)
         self.count_wrong += 1
         print(self.count_wrong)
-        self.add_word_to_list(self.words_unknown)
+        # self.add_word_to_list(self.words_unknown)
         self.display_word()
 
     def right_button_clicked(self):
@@ -142,7 +143,6 @@ class FlashCard:
     def remove_from_unknown(self):
         # remove word from l ist
         self.words_unknown.remove(self.random_word)
-
 
     def save_words(self):
         with open("./data/known.csv", 'w') as f:
