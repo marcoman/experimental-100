@@ -11,6 +11,12 @@ import random
 
 QUOTEFILE = "quotes.txt"
 
+email_tls = os.environ.get("MAIL_TLS")
+email_ssl = os.environ.get("MAIL_SSL")
+email_sender = os.environ.get("MAIL_SENDER")
+email_password= os.environ.get("MAIL_PASSWORD")
+email_receiver = os.environ.get("MAIL_RECEIVER")
+email_smtp = os.environ.get("MAIL_SMTP")
 
 
 def read_quotes():
@@ -39,13 +45,11 @@ def run():
         print (f"{get_random_quote()}")
 
 def send_email(quote):
-    my_email = os.environ['EMAIL_ADDRESS']
-    password = os.environ['EMAIL_PASSWORD']
-    with smtplib.SMTP('smtp.gmail.com', 587) as connection:
+    with smtplib.SMTP(email_smtp, email_tls) as connection:
         connection.starttls()
-        connection.login(user=my_email, password=password)
-        connection.sendmail(from_addr=my_email,
-                            to_addrs=my_email,
+        connection.login(user=email_sender, password=email_password)
+        connection.sendmail(from_addr=email_sender,
+                            to_addrs=email_receiver,
                             msg=f'Subject: Motivational Quote\n\n{quote}')
         
 
