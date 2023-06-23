@@ -54,7 +54,13 @@ class Birthdays:
         # send the letter
         letter = random.choice(self.letters)
         newletter = str(letter).replace('[NAME]', name).replace('Angela', 'Marco')
-        print(newletter)
+        self.email_letter(newletter)
+
+    def email_letter(self, letter):
+        '''
+        Here we would send the letter as it is passed in.
+        '''
+        print (letter)
 
     def run(self):
         # run the program
