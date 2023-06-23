@@ -13,9 +13,6 @@ class Birthdays:
         self.birthdays = None
         self.letters = []
 
-    def __str__(self):
-        return f"{self.day}/{self.month}/{self.year}"
-    
     def load_letters(self):
         # open a file
         # read the items in as letters
@@ -43,8 +40,7 @@ class Birthdays:
     def find_birthdays_today(self):
         td = dt.datetime.now()
 
-        today = self.birthdays[(self.birthdays['year'] == td.year) & 
-                               (self.birthdays['month'] == td.month) & 
+        today = self.birthdays[(self.birthdays['month'] == td.month) & 
                                (self.birthdays['day'] == td.day)]
 
         return today
