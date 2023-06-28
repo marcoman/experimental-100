@@ -47,17 +47,24 @@ class QuizInterface:
         self.window.mainloop()
 
     def true_pressed(self):
-        if self.quizbrain.check_answer("True"):
-            pass
-        if self.quizbrain.still_has_questions():
-            self.get_next_question()
+        self.give_feedback(self.quizbrain.check_answer("True"))
 
     def false_pressed(self):
-        if self.quizbrain.check_answer("False"):
-            pass
-        if self.quizbrain.still_has_questions():
-            self.get_next_question()
+        self.give_feedback(self.quizbrain.check_answer("False"))
 
     def get_next_question(self):
         question = self.quizbrain.next_question()
         self.canvas.itemconfig(self.question_text, text=question)
+
+    def give_feedback(self, is_right: bool):
+        if is_right:
+            self.canvas.config(bg="green")
+        else:
+            self.canvas.config(bg="red")
+        self.window.after(1000, self.update_score)
+
+    def update_score(self):
+        self.score_label.config(text=f"Score: {self.quizbrain.score}")
+        self.canvas.config(bg=QUESTION_BACKGROUND)
+        if self.quizbrain.still_has_questions():
+            self.get_next_question()
