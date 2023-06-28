@@ -2,6 +2,8 @@ from question_model import Question
 from data import question_data
 from quiz_brain import QuizBrain
 
+from ui import QuizInterface
+
 import requests
 import html
 
@@ -14,7 +16,7 @@ def get_question_data():
     return response.json()['results']
 
 
-def load_online_questions():
+def get_online_questions():
     question_bank = []
     question_data = get_question_data()
     for question in question_data:
@@ -28,11 +30,14 @@ def load_online_questions():
 
     return question_bank
 
-question_bank = load_online_questions()
-quiz = QuizBrain(question_bank)
+question_bank = get_online_questions()
+quizbrain = QuizBrain(question_bank)
+quiz_ui = QuizInterface(quizbrain)
 
-while quiz.still_has_questions():
-    quiz.next_question()
+# quiz = QuizBrain(question_bank)
 
-print("You've completed the quiz")
-print(f"Your final score was: {quiz.score}/{quiz.question_number}")
+# while quiz.still_has_questions():
+#     quiz.next_question()
+
+# print("You've completed the quiz")
+# print(f"Your final score was: {quiz.score}/{quiz.question_number}")
