@@ -9,7 +9,7 @@ THEME_COLOR = "#375362"
 PADDING = 20
 QUESTION_WIDTH = 300
 QUESTION_HEIGHT = 250
-QUESTION_FONT = ("Arial", 20, "italic")
+QUESTION_FONT = ("Arial", 16, "italic")
 QUESTION_BACKGROUND = 'white'
 
 class QuizInterface:
@@ -68,3 +68,7 @@ class QuizInterface:
         self.canvas.config(bg=QUESTION_BACKGROUND)
         if self.quizbrain.still_has_questions():
             self.get_next_question()
+        else:
+            self.canvas.itemconfig(self.question_text, text="You've reached the end of the quiz.")
+            self.true_button.config(state="disabled")
+            self.false_button.config(state="disabled")
