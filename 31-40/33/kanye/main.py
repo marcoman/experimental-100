@@ -4,6 +4,7 @@ import requests
 KANYE_URL = 'https://api.kanye.rest'
 
 def get_quote():
+    'get a quote from kanye'
     response = requests.get(url=KANYE_URL)
     quote =response.json()['quote']
     print (quote)
