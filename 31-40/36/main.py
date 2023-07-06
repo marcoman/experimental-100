@@ -5,7 +5,7 @@ import datetime
 
 
 STOCK = "DE"
-COMPANY_NAME = "John Deere"
+COMPANY_NAME = "Deere"
 
 STOCK_ENDPOINT = "https://www.alphavantage.co/query"
 NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
@@ -65,13 +65,20 @@ print (f'URL is: {NEWS_ENDPOINT}')
 
 response = requests.get(NEWS_ENDPOINT)
 print (response.status_code)
-print (response.json())
+# print (response.json())
+# 
 
+
+for article in response.json()['articles'][:3]:
+    print(f"Title: {article['title']}")
+    print(f"Article: {article['description']}")
+    print(f"Brief: ")
 
 ## STEP 3: Use twilio.com/docs/sms/quickstart/python
 # Send a separate message with each article's title and description to your phone number. 
 #HINT 1: Consider using a List Comprehension.
 
+# For this section, I'm omitting sending messages from my check-in code.  
 
 
 #Optional: Format the SMS message like this: 
