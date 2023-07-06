@@ -1,18 +1,22 @@
 import os
 import requests
-import json
 import datetime
 
 
 STOCK = "DE"
-COMPANY_NAME = "Deere"
+COMPANY_NAME = "DE"
+ALPHAVANTAGE_API_KEY = os.environ.get('ALPHAVANTAGE_API_KEY')
 
 STOCK_ENDPOINT = "https://www.alphavantage.co/query"
-NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
+STOCK_PARAMS = {
+    "function": "TIME_SERIES_DAILY",
+    "symbol": COMPANY_NAME,
+    "apikey": ALPHAVANTAGE_API_KEY,
+}
 
-ALPHAVANTAGE_API_KEY = os.environ.get('ALPHAVANTAGE_API_KEY')
 DEMO_ENDPOINT = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=DE&apikey=demo'
 DAILY_ENDPOINT = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol={symbol}&apikey={apikey}'.format(symbol=STOCK, apikey=os.environ.get('ALPHAVANTAGE_API_KEY'))
+NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
 
 YESTERDAY : datetime.date
 DAY_BEFORE_YESTERDAY : datetime.date
@@ -24,10 +28,17 @@ DAY_BEFORE_YESTERDAY : datetime.date
 #HINT 1: Get the closing price for yesterday and the day before yesterday. Find the positive difference between the two prices. e.g. 40 - 20 = -20, but the positive difference is 20.
 #HINT 2: Work out the value of 5% of yerstday's closing stock price. 
 
-response = requests.get(DAILY_ENDPOINT)
+# The stock endpoints are premium APIs now.  So we can't really use them for free.
+
+response = requests.get(DAILY_ENDPOINT, params=STOCK_PARAMS)
 print (f'URL is: {DAILY_ENDPOINT}')
 print (response.status_code)
-# print (response.json())
+print (response.json())
+
+response = requests.get(DEMO_ENDPOINT, params=STOCK_PARAMS)
+print (f'URL is: {DEMO_ENDPOINT}')
+print (response.status_code)
+print (response.json())
 
 
 # We only want the dates from yesterdy, and the day before.
