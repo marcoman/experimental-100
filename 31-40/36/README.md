@@ -4,9 +4,6 @@ Today is about getting details about stocks via a python script.
 
 We'll use API data to present information to the user.
 
-
-
-
 The data from this API 
 
 
