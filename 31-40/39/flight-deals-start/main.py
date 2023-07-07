@@ -1,0 +1,26 @@
+#This file will need to use the DataManager,FlightSearch, FlightData, NotificationManager classes to achieve the program requirements.
+
+import pprint
+import flight_data
+import flight_search
+import notification_manager
+import data_manager
+import datetime
+
+my_flight_data = flight_data.FlightData()
+my_flight_search = flight_search.FlightSearch()
+
+sheet_data = my_flight_data.get_rows()
+# pprint.pprint(flight_data)
+
+# Iterate over each row to get flight data.
+date_start = (datetime.datetime.now() + datetime.timedelta(days=7)).strftime("%d/%m/%Y")
+date_end = (datetime.datetime.now() + datetime.timedelta(days=14)).strftime("%d/%m/%Y")
+
+for flight in sheet_data["flights"]:
+    pprint.pprint(flight)
+    flight_prices = my_flight_search.get_flight_data(flight["from"], flight["to"], date_start, date_end)
+    pprint.pprint(flight_prices)
+
+# # my_flight_data.print_rows()
+# my_flight_data.sheet_report()

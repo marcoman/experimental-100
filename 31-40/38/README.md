@@ -14,6 +14,10 @@ I have a copy of this Spreadsheet : https://docs.google.com/spreadsheets/d/1DHL6
 https://developer.nutritionix.com/signup
 
 
+Test the experience with this API:
+https://www.nutritionix.com/natural-demo/
+
+
 For reference, this is what the response for a nutrition inquiry looks like:
 
 ```json
