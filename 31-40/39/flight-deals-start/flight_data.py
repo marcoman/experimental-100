@@ -2,6 +2,7 @@ import requests
 import os
 
 class FlightData:
+
     #This class is responsible for structuring the flight data.
     def __init__(self):
         self.API_ENDPOINT = os.environ.get("SHEETLY_API") + "/myFlights/flights"
@@ -32,5 +33,4 @@ class FlightData:
     def print_rows(self):
         for flight in self.get_rows()["flights"]:
             print(f'Flight from {flight["from"]} to {flight["to"]}) ({flight["dest"]})')
-
 
