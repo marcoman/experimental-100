@@ -1,7 +1,32 @@
 h2 {
-    color: blue;
+    font-style: italic;
+}
+
+h1 {
+    color:black
+}
+
+h2 {
+    color:blue;
 }
 
 p {
-    color: darkcyan;
+    color:darkcyan;
+}
+
+.red-font {
+    color:red
+}
+
+.blue-font {
+    color:blue
+}
+
+#default {
+    color:slateblue
+}
+
+
+p[draggable]{
+    color:yellow
 }
