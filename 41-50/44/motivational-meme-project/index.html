@@ -26,8 +26,22 @@ But it must have the following features:
     }
     h1 {
       font-family: 'Libre Baskerville';
+      font-size: 3rem;
       src: url("https://fonts.google.com/specimen/Libre+Baskerville");
     }
+
+    #meme {
+      width: 50%;
+      margin-left: 25%;
+      margin-top: 100px;
+      color: white;
+    }
+
+    #picture {
+      border: 5px solid white;
+      width: 100%;
+    }
+
   </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,8 +49,8 @@ But it must have the following features:
 </head>
 <body>
   <div>
-    <div>
-      <img src="assets/images/daenerys.jpeg" width="100%"/>
+    <div id="meme">
+      <img src="assets/images/daenerys.jpeg" width="100%" id="picture"/>
     </div>
     <div>
       <h1>Welcome!</h1>
