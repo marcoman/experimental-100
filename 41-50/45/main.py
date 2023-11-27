@@ -36,7 +36,7 @@ def  parse(html):
     all_paragraph_tags = soup.find_all(name='p')
     print(all_paragraph_tags)
 
-    print('********************')
+    print('********************anchor')
     for tag in all_anchor_tags:
         print(tag.getText())
         print(tag.get("href"))
