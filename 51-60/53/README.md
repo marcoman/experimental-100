@@ -37,3 +37,15 @@ Once all the data has been filled in, click on the "Sheet" icon to create a Goog
 ______________________________________________________________________________________________________________________________________
 
 
+## HELP
+I'll admit I used these resources:
+
+Hints:
+https://gist.github.com/TheMuellenator/7e45f9b977e90419146c4a2ee1713087
+
+
+Solution:
+https://gist.github.com/TheMuellenator/1318b1084a74e9b559f9820438b4a931
+
+One thing I tried to figure out was how to select a base object, and then iterate within to find child items.
+
