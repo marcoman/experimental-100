@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+</head>
+<body>
+    {% for blog_post in posts: %}
+    <h1>{{blog_post["title"]}}</h1>
+    {% if blog_post["id"] == 2%}
+        <h2>THIS ONE IS SPECIAL</h2>
+    {% endif %}
+    <h2>{{blog_post["subtitle"]}}</h2>
+    <p>{{blog_post["body"]}}</p>
+    <pre>(c) Copyright {{blog_post["id"]}}</pre>
+    {% endfor %}
+</body>
+</html>
