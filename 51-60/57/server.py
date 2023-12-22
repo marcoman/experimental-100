@@ -34,8 +34,9 @@ def guess(name):
                            age=age)
 
 
-@app.route('/blog')
-def blog():
+@app.route('/blog/<num>')
+def blog(num):
+    print(num)
     response = requests.get(URL_SAMPLE_BLOG)
     all_posts = response.json()
     return render_template('blog.html', 

@@ -11,7 +11,7 @@
 <h1>Random number: {{randnum}}</h1>
 
 <br>
-<a href="{{ url_for('blog') }}">Go to the blog page</a>
+<a href="{{ url_for('blog', num=3) }}">Go to the blog page</a>
 <br>
 <a href="{{ url_for('guess', name='marco') }}">Go to the guess page</a>
 
