@@ -16,6 +16,8 @@ The best way is to navigate to the file on disk.  This is a file-open operation 
 
 `components` contains screen elements per the instructions.  This includes [buttons](https://getbootstrap.com/docs/5.0/components/buttons/)
 
+`11.3 TinDog Project` is modeled on the sample at See https://appbrewery.github.io/tindog
+
 # Resources
 
 See https://www.w3schools.com/bootstrap/bootstrap_grid_system.asp
