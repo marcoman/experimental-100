@@ -6,7 +6,7 @@
     <title>Blog</title>
 </head>
 <body>
-    {% for blog_post in posts: %}
+    {% for blog_post in posts %}
     <h1>{{blog_post["title"]}}</h1>
     {% if blog_post["id"] == 2%}
         <h2>THIS ONE IS SPECIAL</h2>
