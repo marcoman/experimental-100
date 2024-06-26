@@ -9,3 +9,6 @@ So the goal for today is to understand how HTML forms are submitted and how to u
 `flask --app main --debug run` 
 
 
+# Final task
+The final task is to add the form-entry logic to our previous blog post.  This example uses a reference implementation and we update the file `main.py` to include a new `form-entry` app.route.
+
