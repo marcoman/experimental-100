@@ -9,7 +9,7 @@ app = Flask(__name__)
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0'}
 
 @app.route('/')
-def hello():
+def home():
     return render_template('index.html')
 
 # Accept the name and password via post into the file submit.html
@@ -21,4 +21,3 @@ def submit():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
