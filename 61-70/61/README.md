@@ -23,11 +23,19 @@ In the starting folder, we run the flask application with:
 
 ```
 cd starting
-
 flask --app main --debug run
-#or
+# or
 flask --app main run
+```
 
+
+In the step-2 folder, we add bootstrap suport.  Here is how we run it:
+
+```
+cd step-2
+flask --app main --debug run
+# or
+flask --app main run
 ```
 
 # requirements.txt
