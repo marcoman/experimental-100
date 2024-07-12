@@ -2,13 +2,15 @@ from flask import Flask, render_template
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length
-
+from flask_bootstrap import Bootstrap5
 import os
 
 mysecret = os.urandom(32)
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = mysecret
+bootstrap = Bootstrap5(app)
+
 
 class MyForm(FlaskForm):
     email = StringField(label='email', validators=[DataRequired(), Length(min=8), Email(check_deliverability=True)])
