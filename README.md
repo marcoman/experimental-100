@@ -1,9 +1,7 @@
 # experimental-100
 100 different tasks in python
 
-
-
-
+```
 from birthdays import Birthdays
 from bs4 import BeautifulSoup
 from bs4 import BeautifulSoup as bs4
@@ -79,3 +77,4 @@ import tkinter
 import tkinter as tk
 import torch
 import turtle
+```
