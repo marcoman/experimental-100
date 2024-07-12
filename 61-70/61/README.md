@@ -17,6 +17,19 @@ Secrets
 By the end of today, we will build a website that holds some secrets. Only with the right username and password can you access the page with our secrets.
 
 
+# Running
+
+In the starting folder, we run the flask application with:
+
+```
+cd starting
+
+flask --app main --debug run
+#or
+flask --app main run
+
+```
+
 # requirements.txt
 make sure you run `pip install -r requirements.txt`
 
