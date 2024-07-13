@@ -47,6 +47,7 @@ class CafeForm(FlaskForm):
     wifi_rating = StringField(
         'Wifi Rating',
         validators=[DataRequired(), Length(min=0, max=10)]
+        # TODO: Figure out how to use NumberRange
     )
     coffee_rating = StringField(
         'Coffee Rating',
@@ -82,6 +83,7 @@ def add_cafe():
         # Exercise:
         # Make the form write a new row into cafe-data.csv
         # with   if form.validate_on_submit()
+        # TOOD: use an emoji instead of a rating number.
         with open('cafe-data.csv', 'a', newline='', encoding='utf-8') as data_file:
             data_file.write(f"{form.name.data},"
                             f"{form.location.data},"
