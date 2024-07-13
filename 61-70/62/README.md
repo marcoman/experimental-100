@@ -1,4 +1,5 @@
-This is the folder for Day 62 exercises.
+# Overview
+This is the folder for Day 62 exercises.  This is an example where the learning is based on what we remember and investigate.
 
 This project is an exercise of day 61 and day 60 exercises.
 
@@ -26,3 +27,21 @@ I copied the final solution as `solution`. and copied the files as-is from the p
 
 
 Happy testing.
+
+
+# External links
+Some of the links I used included:
+
+- https://wtforms.readthedocs.io/en/2.3.x/validators/
+This is for the validators, including URL
+
+- https://stackoverflow.com/questions/66624995/how-do-i-find-if-variable-contains-a-string-from-list-of-strings
+I wanted to see an example of how to match in HTML.  Plain old code.
+
+- https://bootstrap-flask.readthedocs.io/en/stable/macros/#render-form
+Background information on rendering a page, as I was looking for rendering each Field one-by-one.  I then saw I could use `render_form` to create a complete form goverend by Flask-WTForms.
+
+- https://flask-wtf.readthedocs.io/en/1.0.x/quickstart/
+This link is provided to us in the course materials.
+
+
