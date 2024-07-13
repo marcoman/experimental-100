@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect
 from flask_bootstrap import Bootstrap5
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired, Length, URL
+from wtforms.validators import DataRequired, Length, URL, NumberRange
 
 import requests
 from flask import request
@@ -46,15 +46,15 @@ class CafeForm(FlaskForm):
     )
     wifi_rating = StringField(
         'Wifi Rating',
-        validators=[DataRequired(), Length(min=0, max=300)]
+        validators=[DataRequired(), Length(min=0, max=10)]
     )
     coffee_rating = StringField(
         'Coffee Rating',
-        validators=[DataRequired(), Length(min=0, max=300)]
+        validators=[DataRequired(), Length(min=0, max=10)]
     )
     power_rating = StringField(
         'Power Rating',
-        validators=[DataRequired(), Length(min=0, max=300)]
+        validators=[DataRequired(), Length(min=0, max=10)]
     )
     submit = SubmitField('Submit')
 

@@ -44,4 +44,12 @@ Background information on rendering a page, as I was looking for rendering each 
 - https://flask-wtf.readthedocs.io/en/1.0.x/quickstart/
 This link is provided to us in the course materials.
 
+# requirements.txt
+make sure you run `pip install -r requirements.txt`
 
+The requirements file may not be up-to-date.
+
+# TODOs
+
+- Let us enter a number into the ratings, and then build logic that automatically converts each number into an emoji/symbol.
+- Validate the ratings fields to only permit numbers 1 through 5
