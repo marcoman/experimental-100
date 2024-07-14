@@ -6,13 +6,17 @@
       <div class="col-sm-12">
         <h1>My Library</h1>
         <table class="table table-dark table-striped table-hover">
-          {% for book in books %}
-          <tr>
-          <td>{{ book['title'] }}</td>
-          <td>{{ book['author'] }}</td>
-          <td>{{ book['rating'] }} </td>
-          </tr>
-          {% endfor %}
+          {% if books|length > 0 %}
+            {% for book in books %}
+            <tr>
+            <td>{{ book['title'] }}</td>
+            <td>{{ book['author'] }}</td>
+            <td>{{ book['rating'] }} </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr><td>There are no books</td></tr>
+          {% endif %}
         </table>
         <a href="{{ url_for('add')}}">Add New Book</a>
       </div>
