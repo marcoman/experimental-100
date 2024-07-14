@@ -1,13 +1,6 @@
-{% from 'bootstrap5/form.html' import render_form %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Add Book</title>
-  </head>
-  <body>
-    {% block content %}
-    {{ render_form(form, novalidate=True) }}
-    {% endblock %}
-  </body>
-</html>
+{% extends 'base.html' %}
+{% block title %}My Books{% endblock %}
+{% block content %}
+  {% from 'bootstrap5/form.html' import render_form %}
+  {{ render_form(form, novalidate=True) }}
+{% endblock %}
