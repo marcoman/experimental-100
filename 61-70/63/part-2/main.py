@@ -8,6 +8,7 @@ from wtforms.validators import Length
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Float
+import os
 
 '''
 Red underlines? Install the required packages first: 
@@ -22,38 +23,50 @@ pip3 install -r requirements.txt
 This will install the packages from requirements.txt for this project.
 '''
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(basedir, "book-list.db")
+
+Bootstrap5(app)
+
+# This line initializes the database
 class Base(DeclarativeBase):
   pass
 
 db = SQLAlchemy(model_class=Base)
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
-Bootstrap5(app)
 # configure the SQLite database, relative to the app instance folder
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
 # initialize the app with the extension
 db.init_app(app)
 
 class Book(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(250), unique=True, nullable=False)
-    author = db.Column(db.String(250), nullable=False)
-    rating = db.Column(db.Float, nullable=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    title: Mapped[str] = mapped_column(String(250), nullable=False)
+    author: Mapped[str] = mapped_column(String(250), nullable=False)
+    rating: Mapped[float] = mapped_column(Float, nullable=False)
+
+    def __repr__(self) -> str:
+        return f'<Book {self.title}>'
+    
+    def __init__(self, title, author, rating):
+        self.title = title
+        self.author = author
+        self.rating = rating
+
 
 with app.app_context():
     db.create_all()
-   
-all_books = [
-     {
-        "title": "Harry Potter",
-        "author": "J. K. Rowling",
-        "rating": 9,
-    }
-]
+
+# Create the first record
+with app.app_context():
+    new_book = Book(title="Harry Potter", author="J. K. Rowling", rating=9.5)
+    db.session.add(new_book)
+    db.session.commit()
 
 class addBook(FlaskForm):
-    book_title = StringField("Book Title", validators=[DataRequired(),
+    id = StringField("Book ID", validators=[DataRequired()])
+    title = StringField("Book Title", validators=[DataRequired(),
                                                      Length(min=5, max=80)])
     author = StringField("Author", validators=[DataRequired(),
                                                Length(min=5, max=80)])
