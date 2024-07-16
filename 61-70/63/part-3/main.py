@@ -69,6 +69,7 @@ def home():
         for book in book_scalars:
             print (f'book is {book} {book.title} {book.author} {book.rating}')
             all_books.append({
+                    "id" : book.id,
                     "title" : book.title,
                     "author" : book.author,
                     "rating" : book.rating
@@ -93,5 +94,17 @@ def add():
     else:
         return render_template("add.html", form=form)
  
+@app.route("/edit", methods=["GET", "POST"])
+def edit():
+    if request.method == "POST":
+        book_id = request.form["id"]
+        book_to_update = Book.query.get(book_id)
+        book_to_update.rating = request.form["rating"]
+        db.session.commit()
+        return redirect(url_for('home'))
+    book_id = request.args.get('id')
+    book_selected = db.get_or_404(Book, book_id)
+    return render_template("edit.html", book=book_selected)
+
 if __name__ == "__main__":
     app.run(debug=True)

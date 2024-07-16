@@ -4,13 +4,14 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-12">
-        <h1>My Library</h1>
+        <h1>My Library of books</h1>
         <table class="table table-dark table-striped table-hover">
             {% for book in books %}
             <tr>
             <td>{{ book["title"] }}</td>
             <td>{{ book["author"] }}</td>
             <td>{{ book["rating"] }} </td>
+            <td><a href="{{ url_for('edit', id=book.id) }}">Edit Rating</a></td>
             </tr>
             {% endfor %}
         </table>
