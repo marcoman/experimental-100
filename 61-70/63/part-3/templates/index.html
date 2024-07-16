@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}My Books{% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>My Library</h1>
+        <table class="table table-dark table-striped table-hover">
+            {% for book in books %}
+            <tr>
+            <td>{{ book["title"] }}</td>
+            <td>{{ book["author"] }}</td>
+            <td>{{ book["rating"] }} </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <a href="{{ url_for('add')}}">Add New Book</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}
