@@ -4,8 +4,9 @@ This is day 63 assignment.  The goal is to create an application that can help u
 
 The `step-1` folder contains an in-memory implementation of my book list, which goes away when I close the application.
 
+The `step-2` folder contains a SQLAlchemy implementation, which persists data.  This is only a store of a default book.
 
-The `step-2` folder contains a SQLAlchemy implementation, which persists data.
+The `step-3` folder contains an example of the project where we can add and delete books.
 
 
 # Running
@@ -30,6 +31,10 @@ https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iv-database
 make sure you run `pip install -r requirements.txt`
 
 The requirements file may not be up-to-date.
+
+```
+pip install Flask-SQLAlchemy
+```
 
 # Final Solution
 
