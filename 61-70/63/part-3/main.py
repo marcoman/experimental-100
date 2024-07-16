@@ -106,5 +106,16 @@ def edit():
     book_selected = db.get_or_404(Book, book_id)
     return render_template("edit.html", book=book_selected)
 
+@app.route("/delete", methods=["GET", "POST"])
+def delete():
+    book_id = request.args.get('id')
+    book_to_delete = db.get_or_404(Book, book_id)
+    with app.app_context():
+        current_db_session = db.session.object_session(book_to_delete)
+        current_db_session.delete(book_to_delete)
+        current_db_session.commit()
+        # db.session.delete(book_to_delete)
+        # db.session.commit()
+    return redirect(url_for('home'))
 if __name__ == "__main__":
     app.run(debug=True)
