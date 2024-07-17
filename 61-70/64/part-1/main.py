@@ -55,15 +55,25 @@ class Movie(db.Model):
 with app.app_context():
     db.create_all()
 
-class addBook(FlaskForm):
-    id = StringField("Book ID", validators=[DataRequired()])
-    title = StringField("Book Title", validators=[DataRequired(),
-                                                     Length(min=5, max=80)])
-    author = StringField("Author", validators=[DataRequired(),
-                                               Length(min=5, max=80)])
-    rating = StringField("Rating", validators=[DataRequired(),
-                                               Length(min=1, max=3)])
-    submit = SubmitField("Add Book")
+class addMovie(FlaskForm):
+    title = StringField("Movie Title", validators=[DataRequired()])
+    year = StringField("Movie Year", validators=[DataRequired()])
+    description = StringField("Movie Description", validators=[DataRequired(),
+                                                     Length(min=5, max=500)])
+    rating = StringField("Movie Rating", validators=[DataRequired()])
+    ranking = StringField("Movie Ranking", validators=[DataRequired()])
+    review = StringField("Movie Review", validators=[DataRequired(),
+                                                     Length(min=5, max=500)])
+    img_url = StringField("Movie Image URL", validators=[DataRequired()])
+
+    submit = SubmitField("Add Movie")
+
+class editMovie(FlaskForm):
+    rating = StringField("Your Rating Out of 10 e.g. 7.5", validators=[DataRequired()])
+    review = StringField("Your Review", validators=[DataRequired(),
+                                                     Length(min=5, max=500)])
+    submit = SubmitField("Done")
+
 
 @app.route("/init")
 def init():
@@ -104,16 +114,18 @@ def home():
 
 @app.route("/edit", methods=["GET", "POST"])
 def edit():
-    form = addBook()
+    form = editMovie()
+    movie_id = request.args.get('id')
+    movie = db.get_or_404(Movie, movie_id)
     if form.validate_on_submit():
-        movie_id = request.form["id"]
-        movie_to_update = Movie.query.get(movie_id)
-        movie_to_update.rating = request.form["rating"]
+        print ("Form Submitted")
+        movie.rating = float(form.rating.data)
+        movie.review = form.review.data
         db.session.commit()
         return redirect(url_for('home'))
     else:
         print ("Form not validated on submit")
-        return render_template("edit.html", form=form)
+        return render_template("edit.html", form=form, movie=movie)
 
 @app.route("/delete")
 def delete():
@@ -122,6 +134,24 @@ def delete():
     db.session.delete(movie_to_delete)
     db.session.commit()
     return redirect(url_for('home'))
+
+@app.route("/add", methods=["GET", "POST"])
+def add():
+    form = addMovie()
+    if form.validate_on_submit():
+        new_movie = Movie(
+            title=form.title.data,
+            year=int(form.year.data),
+            description=form.description.data,
+            rating=float(form.rating.data),
+            ranking=int(form.ranking.data),
+            review=form.review.data,
+            img_url=form.img_url.data
+        )
+        db.session.add(new_movie)
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template("add.html", form=form)
 
 if __name__ == '__main__':
     app.run(debug=True)
