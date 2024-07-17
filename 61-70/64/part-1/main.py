@@ -1,3 +1,4 @@
+import urllib.parse
 from flask import Flask, render_template, redirect, url_for, request
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
@@ -10,6 +11,7 @@ from wtforms.validators import DataRequired
 from wtforms.validators import Length
 import requests
 import os
+import urllib
 
 '''
 Red underlines? Install the required packages first: 
@@ -31,6 +33,11 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(basedir, "movie.db")
 Bootstrap5(app)
+
+TMDB_API_KEY = os.environ['TMDB_API_KEY']
+TMDB_API_READ_REQUEST = os.environ['TMDB_API_READ_REQUEST']
+TMDB_URL="https://api.themoviedb.org/3/search"
+TMDB_HEADERS = {"Authorization": f"Bearer {TMDB_API_READ_REQUEST}"}
 
 # CREATE DB
 # This line initializes the database
@@ -54,6 +61,10 @@ class Movie(db.Model):
 # CREATE TABLE
 with app.app_context():
     db.create_all()
+
+class AddMovieSimple(FlaskForm):
+    title = StringField("Movie Title", validators=[DataRequired()])
+    submit = SubmitField("Find Movie")
 
 class addMovie(FlaskForm):
     title = StringField("Movie Title", validators=[DataRequired()])
@@ -137,7 +148,26 @@ def delete():
 
 @app.route("/add", methods=["GET", "POST"])
 def add():
-    form = addMovie()
+    form = AddMovieSimple()
+    if form.validate_on_submit():
+        movie_title = form.title.data
+        print (f"Searching for the title {movie_title}")
+        safe_string = urllib.parse.quote_plus(movie_title)
+        print (f"SAFE STRING is '{safe_string}'")
+        query_url = f'{TMDB_URL}/movie?query={safe_string}&include_adult=false&language=en-US&page=1'
+        print (f"Query URL is '{query_url}'")
+
+        response = requests.get(url=query_url,
+                                headers=TMDB_HEADERS)
+        data = response.json()
+        print ("Response is:")
+        print (data)
+        return redirect(url_for('home'))
+    return render_template("add.html", form=form)
+
+@app.route("/addMovie", methods=["GET", "POST"])
+def addMovie():
+    form = AddMovieSimple()
     if form.validate_on_submit():
         new_movie = Movie(
             title=form.title.data,
