@@ -159,11 +159,20 @@ def add():
 
         response = requests.get(url=query_url,
                                 headers=TMDB_HEADERS)
-        data = response.json()
+        data = response.json()['results']
         print ("Response is:")
         print (data)
-        return redirect(url_for('home'))
+        for movie in data:
+            print (f"Movie {movie['title']} id {movie['id']} overview {movie['overview'] }")
+
+        return redirect(url_for('select', data=data))
     return render_template("add.html", form=form)
+
+@app.route("/select", methods=["GET", "POST"])
+def select():
+    # movie_id = request.args.get('id')
+    # movie = db.get_or_404(Movie, movie_id)
+    return render_template("select.html", movie=movie)
 
 @app.route("/addMovie", methods=["GET", "POST"])
 def addMovie():
