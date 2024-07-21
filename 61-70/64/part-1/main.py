@@ -36,7 +36,8 @@ Bootstrap5(app)
 
 TMDB_API_KEY = os.environ['TMDB_API_KEY']
 TMDB_API_READ_REQUEST = os.environ['TMDB_API_READ_REQUEST']
-TMDB_URL="https://api.themoviedb.org/3/search"
+TMDB_URL="https://api.themoviedb.org/3"
+TMDB_URL_IMAGE_URL="https://image.tmdb.org/t/p/original/"
 TMDB_HEADERS = {"Authorization": f"Bearer {TMDB_API_READ_REQUEST}"}
 
 # CREATE DB
@@ -62,11 +63,11 @@ class Movie(db.Model):
 with app.app_context():
     db.create_all()
 
-class AddMovieSimple(FlaskForm):
+class FindMovieForm(FlaskForm):
     title = StringField("Movie Title", validators=[DataRequired()])
     submit = SubmitField("Find Movie")
 
-class addMovie(FlaskForm):
+class addMovieForm(FlaskForm):
     title = StringField("Movie Title", validators=[DataRequired()])
     year = StringField("Movie Year", validators=[DataRequired()])
     description = StringField("Movie Description", validators=[DataRequired(),
@@ -79,7 +80,7 @@ class addMovie(FlaskForm):
 
     submit = SubmitField("Add Movie")
 
-class editMovie(FlaskForm):
+class editMovieForm(FlaskForm):
     rating = StringField("Your Rating Out of 10 e.g. 7.5", validators=[DataRequired()])
     review = StringField("Your Review", validators=[DataRequired(),
                                                      Length(min=5, max=500)])
@@ -125,7 +126,7 @@ def home():
 
 @app.route("/edit", methods=["GET", "POST"])
 def edit():
-    form = editMovie()
+    form = editMovieForm()
     movie_id = request.args.get('id')
     movie = db.get_or_404(Movie, movie_id)
     if form.validate_on_submit():
@@ -148,35 +149,35 @@ def delete():
 
 @app.route("/add", methods=["GET", "POST"])
 def add():
-    form = AddMovieSimple()
+    form = FindMovieForm()
     if form.validate_on_submit():
         movie_title = form.title.data
-        print (f"Searching for the title {movie_title}")
         safe_string = urllib.parse.quote_plus(movie_title)
-        print (f"SAFE STRING is '{safe_string}'")
-        query_url = f'{TMDB_URL}/movie?query={safe_string}&include_adult=false&language=en-US&page=1'
-        print (f"Query URL is '{query_url}'")
-
+        query_url = f'{TMDB_URL}/search/movie?query={safe_string}&include_adult=false&language=en-US&page=1'
         response = requests.get(url=query_url,
                                 headers=TMDB_HEADERS)
-        data = response.json()['results']
+        data = response.json()["results"]
+
+        print (f"Searching for the title {movie_title}")
+        print (f"SAFE STRING is '{safe_string}'")
+        print (f"Query URL is '{query_url}'")
         print ("Response is:")
         print (data)
         for movie in data:
-            print (f"Movie {movie['title']} id {movie['id']} overview {movie['overview'] }")
+            print (f"Movie [{movie['title']}] id [{movie['id']}] overview [{movie['overview']}]")
 
-        return redirect(url_for('select', data=data))
+        return render_template("select.html", data=data)
     return render_template("add.html", form=form)
 
 @app.route("/select", methods=["GET", "POST"])
 def select():
-    # movie_id = request.args.get('id')
-    # movie = db.get_or_404(Movie, movie_id)
+    movie_id = request.args.get('id')
+    movie = db.get_or_404(Movie, movie_id)
     return render_template("select.html", movie=movie)
 
 @app.route("/addMovie", methods=["GET", "POST"])
-def addMovie():
-    form = AddMovieSimple()
+def addMovieForm():
+    form = FindMovieForm()
     if form.validate_on_submit():
         new_movie = Movie(
             title=form.title.data,
@@ -190,7 +191,39 @@ def addMovie():
         db.session.add(new_movie)
         db.session.commit()
         return redirect(url_for('home'))
-    return render_template("add.html", form=form)
+    return render_template(url_for("addSelectedMoview"), form=form)
+
+
+@app.route("/addSelectedMovie", methods=["GET", "POST"])
+def addSelectedMovie():
+    movie_id = request.args.get('id')
+    print (f"Movie ID is {movie_id}")
+    if movie_id is not None:
+        query_url = f'{TMDB_URL}/movie/{movie_id}?language=en-US'
+        print (f"Query URL is '{query_url}'")
+        # We want 
+        # url = "https://api.themoviedb.org/3/movie/129?language=en-US"
+
+        response = requests.get(url=query_url,
+                                headers=TMDB_HEADERS)
+        data = response.json()
+        print (f'Data is {data}')
+
+        new_movie = Movie(
+            title=data["title"],
+            year=int(data["release_date"][:4]),
+            description=data["overview"],
+            rating=float(data["vote_average"]),
+            ranking=int(4),
+            review="to be determined",
+            img_url=f'{TMDB_URL_IMAGE_URL}{data["poster_path"]}'
+        )
+        print (new_movie)
+        db.session.add(new_movie)
+        db.session.commit()
+
+    # return redirect(url_for('home'))
+    return redirect(url_for('edit', id=new_movie.id))
 
 if __name__ == '__main__':
     app.run(debug=True)
