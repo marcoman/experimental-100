@@ -120,8 +120,15 @@ def init():
 
 @app.route("/")
 def home():
-    all_movies = db.session.query(Movie).all()
+#    all_movies = db.session.query(Movie).all()
+    all_movies = db.session.query(Movie).order_by(Movie.rating).all()
     print (all_movies)
+    count = all_movies.__len__()
+    rank = count
+    for movie in all_movies:
+        print (movie.rating)
+        movie.ranking = rank
+        rank -= 1
     return render_template("index.html", movies=all_movies)
 
 @app.route("/edit", methods=["GET", "POST"])
