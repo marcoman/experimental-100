@@ -11,6 +11,11 @@ We start with files supplied to us in the `start` folder.
 
 # External Links
 
+- https://flask-ckeditor.readthedocs.io/en/latest/basic.html
+- https://bootstrap-flask.readthedocs.io/en/stable/macros/#render-form
+- https://flask-wtf.readthedocs.io/en/stable/
+- https://ckeditor.com/ckeditor-4/ : this comes up when we render our New Blog post screen
+![alt text](image.png)
 
 # requirements.txt
 
