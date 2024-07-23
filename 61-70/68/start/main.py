@@ -10,17 +10,14 @@ app.config['SECRET_KEY'] = 'secret-key-goes-here'
 
 # CREATE DATABASE
 
-
 class Base(DeclarativeBase):
     pass
-
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
-# CREATE TABLE IN DB
-
+# CREATE TABLE IN DB1
 
 class User(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -38,19 +35,44 @@ def home():
     return render_template("index.html")
 
 
-@app.route('/register')
+@app.route('/register', methods=["GET", "POST"])
 def register():
-    return render_template("register.html")
+    if request.method == "POST":
+        name = request.form['name']
+        email = request.form['email']
+        password = request.form['password']
+        new_user = User(email=email, password=generate_password_hash(password, method='pbkdf2:sha256', salt_length=8), name=name)
+        db.session.add(new_user)
+        db.session.commit()
+        print (f'The name is {name}')
+        return redirect(url_for('secrets', name=name))
+    else:
+        return render_template("register.html")
+    
 
 
-@app.route('/login')
+@app.route('/login', methods=["GET", "POST"])
 def login():
-    return render_template("login.html")
+    if request.method == "POST":
+        email = request.form['email']
+        password = request.form['password']
+        user = User.query.filter_by(email=email).first()
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for('secrets'))
+        else:
+            flash("Invalid email or password")
+            return redirect(url_for('login'))
+    else:
+        return render_template("login.html")
 
 
-@app.route('/secrets')
+@app.route('/secrets', methods=["GET", "POST"])
 def secrets():
-    return render_template("secrets.html")
+    name = request.args.get('name')
+    print (f'Name received is {name}')
+
+    return render_template("secrets.html", name=name)
 
 
 @app.route('/logout')
@@ -60,7 +82,7 @@ def logout():
 
 @app.route('/download')
 def download():
-    pass
+    return send_from_directory(directory='static', path='files/cheat_sheet.pdf', as_attachment=True)
 
 
 if __name__ == "__main__":
