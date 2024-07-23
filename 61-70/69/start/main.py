@@ -3,14 +3,14 @@ from flask import Flask, abort, render_template, redirect, url_for, flash
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
 from flask_gravatar import Gravatar
-from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user
+from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Text
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 # Import your forms from the forms.py
-from forms import CreatePostForm
+from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 
 
 '''
@@ -31,7 +31,9 @@ app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 
-# TODO: Configure Flask-Login
+# Configure login
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 
 # CREATE DATABASE
@@ -55,22 +57,58 @@ class BlogPost(db.Model):
 
 
 # TODO: Create a User table for all your registered users. 
+class User(db.Model):
+    __tablename__ = "users"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    email: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
+    password: Mapped[str] = mapped_column(String(250), nullable=False)
+    name: Mapped[str] = mapped_column(String(250), nullable=False)
+    # posts: Mapped[list["BlogPost"]] = relationship()
 
+    is_authenticated = True
+    is_active = True
+    is_anonymous = False
+
+    def get_id(self):
+        return str(self.id)
 
 with app.app_context():
     db.create_all()
 
 
 # TODO: Use Werkzeug to hash the user's password when creating a new user.
-@app.route('/register')
+@app.route('/register', methods=["GET", "POST"])
 def register():
-    return render_template("register.html")
+    form = RegisterForm()
+    if form.validate_on_submit():
+        print ("RegisterForm submitted")
+        new_user = User(
+            email=form.email.data,
+            password=generate_password_hash(form.password.data, method='pbkdf2:sha256', salt_length=8),
+            name=form.name.data
+        )
+        with app.app_context():
+            db.session.add(new_user)
+            db.session.commit()
+        return redirect(url_for('login'))
+    else:
+        print ("Form not submitted")
+        return render_template("register.html", form=form)
 
 
 # TODO: Retrieve a user from the database based on their email. 
-@app.route('/login')
+@app.route('/login', methods=["GET", "POST"])
 def login():
-    return render_template("login.html")
+    form = LoginForm()
+    if form.validate_on_submit():
+        print ("LoginForm submitted")
+        email = form.email.data
+        password = form.password.data
+        user = User.query.filter_by(email=email).first()
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for('get_all_posts'))
+    return render_template("login.html", form=form)
 
 
 @app.route('/logout')
@@ -79,6 +117,7 @@ def logout():
 
 
 @app.route('/')
+@login_required
 def get_all_posts():
     result = db.session.execute(db.select(BlogPost))
     posts = result.scalars().all()
@@ -150,6 +189,11 @@ def about():
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 
 
 if __name__ == "__main__":
