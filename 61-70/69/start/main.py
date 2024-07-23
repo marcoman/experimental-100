@@ -82,15 +82,21 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         print ("RegisterForm submitted")
-        new_user = User(
-            email=form.email.data,
-            password=generate_password_hash(form.password.data, method='pbkdf2:sha256', salt_length=8),
-            name=form.name.data
-        )
-        with app.app_context():
-            db.session.add(new_user)
-            db.session.commit()
-        return redirect(url_for('login'))
+        if User.query.filter_by(email=form.email.data).first():
+            print("User already exists")
+            flash("User alread exists")
+            return render_template('register.html', form=form)
+        else:
+            print("New user")
+            new_user = User(
+                email=form.email.data,
+                password=generate_password_hash(form.password.data, method='pbkdf2:sha256', salt_length=8),
+                name=form.name.data
+            )
+            with app.app_context():
+                db.session.add(new_user)
+                db.session.commit()
+            return redirect(url_for('login'))
     else:
         print ("Form not submitted")
         return render_template("register.html", form=form)
@@ -107,7 +113,11 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password, password):
             login_user(user)
+            flash("Logged in successfully")
             return redirect(url_for('get_all_posts'))
+        else:
+            flash("Invalid email or password")
+            return redirect(url_for('login'))
     return render_template("login.html", form=form)
 
 

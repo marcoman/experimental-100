@@ -12,6 +12,16 @@ include "header.html" %}
         <div class="page-heading">
           <h1>Register</h1>
           <span class="subheading">Start Contributing to the Blog!</span>
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="get_flashed_messages">
+              {% for message in messages %}
+              <p>{{ message }} </p>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+    
         </div>
       </div>
     </div>
