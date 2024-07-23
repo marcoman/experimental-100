@@ -4,14 +4,19 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
+from flask import abort
+from django.utils.http import url_has_allowed_host_and_scheme
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret-key-goes-here'
 
 # CREATE DATABASE
-
 class Base(DeclarativeBase):
     pass
+
+# Configure login
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 db = SQLAlchemy(model_class=Base)
@@ -24,6 +29,13 @@ class User(db.Model):
     email: Mapped[str] = mapped_column(String(100), unique=True)
     password: Mapped[str] = mapped_column(String(100))
     name: Mapped[str] = mapped_column(String(1000))
+    # Per https://flask-login.readthedocs.io/en/latest/#your-user-class.  I think.
+    is_authenticated = True
+    is_active = True
+    is_anonymous = False
+
+    def get_id(self):
+        return str(self.id)
 
 
 with app.app_context():
@@ -32,8 +44,7 @@ with app.app_context():
 
 @app.route('/')
 def home():
-    return render_template("index.html")
-
+    return render_template("index.html", logged_in=current_user.is_authenticated)
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
@@ -45,9 +56,9 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         print (f'The name is {name}')
-        return redirect(url_for('secrets', name=name))
+        return redirect(url_for('login', name=name))
     else:
-        return render_template("register.html")
+        return render_template("register.html", logged_in=current_user.is_authenticated)
     
 
 
@@ -57,33 +68,37 @@ def login():
         email = request.form['email']
         password = request.form['password']
         user = User.query.filter_by(email=email).first()
+        # Per https://werkzeug.palletsprojects.com/en/3.0.x/utils/#werkzeug.security.check_password_hash
         if user and check_password_hash(user.password, password):
             login_user(user)
+            flash("Logged in successfully")
             return redirect(url_for('secrets'))
         else:
             flash("Invalid email or password")
             return redirect(url_for('login'))
     else:
-        return render_template("login.html")
+        return render_template("login.html", logged_in=current_user.is_authenticated)
 
 
 @app.route('/secrets', methods=["GET", "POST"])
+@login_required
 def secrets():
-    name = request.args.get('name')
-    print (f'Name received is {name}')
-
-    return render_template("secrets.html", name=name)
-
+    name = current_user.name
+    return render_template("secrets.html", name=name, logged_in=True)
 
 @app.route('/logout')
 def logout():
-    pass
-
+    logout_user()
+    return redirect(url_for('home'))
 
 @app.route('/download')
+@login_required
 def download():
-    return send_from_directory(directory='static', path='files/cheat_sheet.pdf', as_attachment=True)
+    return send_from_directory('static', 'files/cheat_sheet.pdf', as_attachment=True)
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 if __name__ == "__main__":
     app.run(debug=True)
