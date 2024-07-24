@@ -44,6 +44,14 @@ db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
 
+def admin_only(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if current_user.id != 1:
+            return abort(403)
+        return f(*args, **kwargs)
+    return decorated_function
+
 # CONFIGURE TABLES
 class BlogPost(db.Model):
     __tablename__ = "blog_posts"
@@ -63,7 +71,7 @@ class User(db.Model):
     email: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String(250), nullable=False)
     name: Mapped[str] = mapped_column(String(250), nullable=False)
-    # posts: Mapped[list["BlogPost"]] = relationship()
+    posts: Mapped[list["BlogPost"]] = relationship()
 
     is_authenticated = True
     is_active = True
@@ -84,13 +92,16 @@ def register():
         print ("RegisterForm submitted")
         if User.query.filter_by(email=form.email.data).first():
             print("User already exists")
-            flash("User alread exists")
+            flash(category="error",
+                  message="User already exists")
             return render_template('register.html', form=form)
         else:
             print("New user")
             new_user = User(
                 email=form.email.data,
-                password=generate_password_hash(form.password.data, method='pbkdf2:sha256', salt_length=8),
+                password=generate_password_hash(form.password.data, 
+                                                method='pbkdf2:sha256', 
+                                                salt_length=8),
                 name=form.name.data
             )
             with app.app_context():
@@ -99,7 +110,7 @@ def register():
             return redirect(url_for('login'))
     else:
         print ("Form not submitted")
-        return render_template("register.html", form=form)
+        return render_template("register.html", form=form, current_user=current_user)
 
 
 # TODO: Retrieve a user from the database based on their email. 
@@ -113,25 +124,26 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password, password):
             login_user(user)
-            flash("Logged in successfully")
-            return redirect(url_for('get_all_posts'))
+            return render_template("index.html", logged_in=True)
+            # return redirect(url_for('get_all_posts', logged_in=current_user.is_authenticated))
         else:
-            flash("Invalid email or password")
-            return redirect(url_for('login'))
-    return render_template("login.html", form=form)
+            flash(message="Invalid email or password, please try again.",
+                  category='error')
+            return redirect(url_for('login', logged_in=False))
+    return render_template("login.html", form=form, current_user=current_user)
 
 
-@app.route('/logout')
+@app.route('/logout',  methods=["GET", "POST"])
 def logout():
+    logout_user()
     return redirect(url_for('get_all_posts'))
 
 
 @app.route('/')
-@login_required
 def get_all_posts():
     result = db.session.execute(db.select(BlogPost))
     posts = result.scalars().all()
-    return render_template("index.html", all_posts=posts)
+    return render_template("index.html", all_posts=posts, logged_in=current_user.is_authenticated, current_user=current_user)
 
 
 # TODO: Allow logged-in users to comment on posts
@@ -143,6 +155,7 @@ def show_post(post_id):
 
 # TODO: Use a decorator so only an admin user can create a new post
 @app.route("/new-post", methods=["GET", "POST"])
+@admin_only
 def add_new_post():
     form = CreatePostForm()
     if form.validate_on_submit():
@@ -162,6 +175,7 @@ def add_new_post():
 
 # TODO: Use a decorator so only an admin user can edit a post
 @app.route("/edit-post/<int:post_id>", methods=["GET", "POST"])
+@admin_only
 def edit_post(post_id):
     post = db.get_or_404(BlogPost, post_id)
     edit_form = CreatePostForm(
@@ -184,6 +198,7 @@ def edit_post(post_id):
 
 # TODO: Use a decorator so only an admin user can delete a post
 @app.route("/delete/<int:post_id>")
+@admin_only
 def delete_post(post_id):
     post_to_delete = db.get_or_404(BlogPost, post_id)
     db.session.delete(post_to_delete)
@@ -203,8 +218,6 @@ def contact():
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-
 
 if __name__ == "__main__":
     app.run(debug=True, port=5002)
