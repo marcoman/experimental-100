@@ -18,6 +18,8 @@ The lesson describes typical git activities - init, add, commit, clone, push.
 - [Wordle](https://github.com/ritik48/Wordle-Game)
 - [Awesome for beginners](https://github.com/MunGell/awesome-for-beginners)
 
+- [Git challenge](https://learngitbranching.js.org/)
+
 # Final Solution
 
 # TODOs
