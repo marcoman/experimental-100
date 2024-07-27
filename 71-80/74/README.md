@@ -21,7 +21,7 @@ When did the LEGO company really take-off based on its product offering? How man
 # External Links
 
 - [Pandas nunique](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.nunique.html#pandas.DataFrame.nunique)
-
+- [Scatterplot](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.scatter.html)
 
 # requirements.txt
 
