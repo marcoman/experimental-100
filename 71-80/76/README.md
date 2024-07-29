@@ -30,8 +30,8 @@ Today you'll learn:
 # External Links
 
 - [pandas drop duplicates](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.drop_duplicates.html)
-- 
-
+- [pandas DataFrame.stack](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.stack.html)
+- [Plotly color scales](https://plotly.com/python/builtin-colorscales/)
 
 # requirements.txt
 
