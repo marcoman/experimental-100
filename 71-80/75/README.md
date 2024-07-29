@@ -41,6 +41,7 @@ Review the concepts learned in the previous three days and apply them to new dat
 - [matplot colors](https://matplotlib.org/3.1.1/gallery/color/named_colors.html)
 - [matplot figure parameters - DPI](https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.figure.html)
 - [matplot title](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.title.html)
+- [matplot line styles](https://matplotlib.org/3.2.1/api/_as_gen/matplotlib.pyplot.plot.html)
 
 
 # requirements.txt
