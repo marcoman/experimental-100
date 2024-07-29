@@ -1,27 +1,47 @@
 # Overview
 
-This is the day 74 assignment. It is abotua ggregating and merging data in Pandas.
+This is the day 75 assignment. It is about
 
 
 From the course:
 
-Today we're going to be diving deep into a dataset all about LEGO, which will help us answer a whole bunch of interesting questions about the history of the company, their product offering, and which LEGO set rules them all:
+What can the popularity of search terms tell us about the world? Google Trends gives us access to the popularity of Google Search terms. Let's investigate:
 
-What is the most enormous LEGO set ever created and how many parts did it have?
+How search volume for "Bitcoin" relates to the price of Bitcoin
 
-In which year were the first LEGO sets released and how many sets did the company sell when it first launched?
+How search volume for a hot stock like Telsa relates to that stock's price and
 
-Which LEGO theme has the most sets? Is it Harry Potter, Ninjago, Friends or something else?
+How searches for "Unemployment Benefits" vary with the actual unemployment rate in the United States
 
-When did the LEGO company really take-off based on its product offering? How many themes and sets did it release every year?
+
+
+What you'll learn today
+
+How to make time-series data comparable by resampling and converting to the same periodicity (e.g., from daily data to monthly data).
+
+Fine-tuning the styling of Matplotlib charts by using limits, labels, linestyles, markers, colours, and the chart's resolution.
+
+Using grids to help visually identify seasonality in a time series.
+
+Finding the number of missing and NaN values and how to locate NaN values in a DataFrame.
+
+How to work with Locators to better style the time axis on a chart
+
+Review the concepts learned in the previous three days and apply them to new datasets
+
+
 
 # Running
 
 
 # External Links
 
-- [Pandas nunique](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.nunique.html#pandas.DataFrame.nunique)
-- [Scatterplot](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.scatter.html)
+- [pandas.DataFrame.resample](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.resample.html)
+- [pandas DateOffset Objects ](https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects)
+- [matplot colors](https://matplotlib.org/3.1.1/gallery/color/named_colors.html)
+- [matplot figure parameters - DPI](https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.figure.html)
+- [matplot title](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.title.html)
+
 
 # requirements.txt
 
