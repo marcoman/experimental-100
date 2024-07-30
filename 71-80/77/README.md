@@ -23,7 +23,8 @@ Today you'll learn:
 - [The Numpy beginner's guide](https://numpy.org/devdocs/user/absolute_beginners.html#how-to-reverse-an-array)
 - [The Numpy random sampling](https://numpy.org/doc/stable/reference/random/index.html#module-numpy.random)
 - [numpy.linspace](https://numpy.org/doc/stable/reference/generated/numpy.linspace.html)
-
+- [numpy.matmul](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html)
+- [scipy.datasets.face](https://docs.scipy.org/doc/scipy/reference/generated/scipy.datasets.face.html#scipy.datasets.face)
 
 # requirements.txt
 
