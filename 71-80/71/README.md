@@ -2,7 +2,7 @@
 
 This is the day 71 assignment.  The goal is to publish an application online.
 
-For this example, I am using Vercel.
+For this example, I am using Render.
 
 # Running
 
