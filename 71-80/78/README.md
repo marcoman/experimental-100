@@ -25,6 +25,9 @@ This is in the form of a jupyter notebook, so we run in-line.
 
 # requirements.txt
 
+- seaborn
+- scikit-learn
+
 
 # Final Solution
 
