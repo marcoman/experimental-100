@@ -26,6 +26,9 @@ This is in the form of a jupyter notebook, so we run in-line.
 - [Plotly Choropleth Maps in Python](https://plotly.com/python/choropleth-maps/)
 - [Line Charts in Python](https://plotly.com/python/line-charts/)
 - [Sunburst Charts in Python](https://plotly.com/python/sunburst-charts/)
+- [panda.Series.dt](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.dt.html)
+- [seaborn.histplot to create Histograms](https://seaborn.pydata.org/generated/seaborn.histplot.html)
+
 
 
 # requirements.txt
