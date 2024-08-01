@@ -19,6 +19,10 @@ Today you will:
 
 # External Links
 
+- [seaborn.displot to present information](https://seaborn.pydata.org/generated/seaborn.displot.html#seaborn.displot)
+- [seaborn.pairplot to correlate data](https://seaborn.pydata.org/generated/seaborn.pairplot.html#seaborn.pairplot)
+- [seaborn.jointplot to combine results](https://seaborn.pydata.org/generated/seaborn.jointplot.html)
+
 # requirements.txt
 
 
