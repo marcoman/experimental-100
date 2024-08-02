@@ -10,7 +10,9 @@ Using what you have learnt about Python programming, you will build a text-based
 
 My comments:
 
-- I may take a little liberty and let the people choose their letters.
+- I may take a little liberty and let the people choose their letters.  This is a future todo
+- The application works well enough as a MVP.  Some items are effectively done deliberately.  For example, I could have iterated through the data structure to print the tic-tac-toe screen programmatically, but instead I directly used print-f statements and de-referenced directly.
+- The application passes around the name of the player and their mark a bit liberally.  A better design would probably 
 
 # Running
 
