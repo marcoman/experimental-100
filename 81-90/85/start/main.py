@@ -66,8 +66,10 @@ class PictureWatermark:
     def add_watermark(self):
         print("add watermark")
         with Image.open(self.filename) as im:
-            rgb_im = im.convert('RGB')
-            # original_image = Image.open(self.filename)
+            if im.mode != 'RGB':
+                rgb_im = im.convert('RGB')
+            else:
+                rgb_im = im
             watermark_text = "Marco Watermark"
             text_position = (50,50)
             font = ImageFont.load_default()
