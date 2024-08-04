@@ -1,6 +1,22 @@
 # experimental-100
 100 different tasks in python
 
+# Synopsis
+
+- 16 - Turtle: draw shapes
+- 18 - Turtle: more shapes, with colors.  A grid of colored circles.  Randomwalk.  Spirograph
+- 19 - Turtle: Drawing app.  Turtle race.
+- 20 - Turtle: Simple snake movements.  Not yet a game.
+- 21 - Turtle: The snake game, best reference for this assignment.
+- 22 - Turtle: A simple game of pong, good for reference.
+- 23 - Turtle: A crosy road game with a turtle and cars.
+- 24 - Turtle: Crossy turtle with a high score tracker.
+- 25 - Turtle: Guess the states
+
+
+## Packages
+
+
 ```
 from birthdays import Birthdays
 from bs4 import BeautifulSoup
