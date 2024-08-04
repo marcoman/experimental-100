@@ -24,29 +24,40 @@ class Breakout:
             'color': 'blue'
             }
 
-    def __init__(self, x, y):
+    def __init__(self):
+        self.gameon = False
+        self.limit = 0
         self.myscreen = Screen()
         self.addListeners()
         self.score = 0
 
     def addListeners(self):
         self.myscreen.listen()
-        self.myscreen.onkey(key=Turtle, "Left")
-        self.myscreen.onkey(self.move_paddle_right, "Right")
+        self.myscreen.onkey(key="Left", fun=self.moveleft)
+        self.myscreen.onkey(key="Right", fun=self.moveright)
+        # self.myscreen.onkey(key='a', fun=self.moveleft)
+        # self.myscreen.onkey(key='d', fun=self.moveright)
 
-    def draw_blocks(self):
-        pass
+    def playgame(self):
+        self.gameon = True
+        self.limit = 25
+        while self.gameon and self.limit > 0:
+            print (self.limit)
+            self.myscreen.tracer(0)
+            self.limit -= 1
+            time.sleep(0.1)
+            self.myscreen.update()
+        self.myscreen.exitonclick()
 
-    def draw_paddle(self):
-        pass
 
-    def draw_ball(self):
-        pass
+    def moveleft(self):
+        print ("move left")
 
-    def setup_score(self):
-        pass
+    def moveright(self):
+        print ("move right")
 
     def start_game(self):
+        print("start game")
         pass
 
     def end_game(self):
