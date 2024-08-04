@@ -80,7 +80,7 @@ class TypingTest:
         self.l_test_instructions = tk.Label(text="Enter your text here:",
                                             anchor="w", justify=tk.LEFT
                                             )
-        self.l_test = tk.Label(text="<YOUR INPUT IS SHOWN HERE.", justify=tk.LEFT)
+        self.l_test = tk.Label(text="<YOUR INPUT IS SHOWN HERE>", justify=tk.LEFT)
         self.l_test_instructions.grid(row=2, column=0, padx=10, pady=10)
         self.l_test.grid(row=2, column=1, padx=10, pady=10)
 
