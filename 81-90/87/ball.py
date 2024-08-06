@@ -7,7 +7,7 @@ class Ball(turtle.Turtle):
         turtle.Turtle.__init__(self)
         self.screen_width = screen_width
         self.screen_height = screen_height
-        self.speed(0)
+        self.speed(1)
         self.penup()
         self.x = x
         self.y = y
@@ -62,8 +62,23 @@ class Ball(turtle.Turtle):
 
     def check_brick_collision(self, brick:turtle.Turtle)->bool:
         if brick.isvisible and self.distance(brick) < 40:
-            self.dy *= -1
-            self.dx = -self.dx + random.randint(-2, 2)
+            # We are close to a brick. Now let's figure out from what side and where to bounce next
+
+            # coming in from the bottom
+            if self.top_side_ball < brick.ycor() and self.bottom_side_ball < brick.ycor():
+                self.dy = -(self.dy + random.randint(-2, 2))
+
+            # coming in from the top
+            elif self.bottom_side_ball > brick.ycor() and self.top_side_ball > brick.ycor():
+                self.dy = -(self.dy + random.randint(-2, 2))
+
+            # coming in from the left
+            elif self.right_side_ball < brick.xcor() and self.left_side_ball < brick.xcor():
+                self.dx = -(self.dx + random.randint(-2, 2))
+            
+            # coming in from the right
+            elif self.left_side_ball > brick.xcor() and self.right_side_ball > brick.xcor():
+                self.dx = -(self.dx + random.randint(-2, 2))
             return True
         else:
             return False
