@@ -18,17 +18,12 @@ I keep a score, and a high score.  I don't persist the information.  That would 
 # Running
 
 ```bash
-python3 day87.py
+python3 main.py
 ```
-
-
 
 # External Links
 
 # requirements.txt
-
-
-# Final Solution
 
 # TODOs
 
