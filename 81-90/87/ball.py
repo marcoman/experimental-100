@@ -1,4 +1,5 @@
 import turtle
+import random
 
 class Ball(turtle.Turtle):
     PADDLE_BUFFER = 25
@@ -58,3 +59,11 @@ class Ball(turtle.Turtle):
             print("Paddle collision")
         else:
             pass
+
+    def check_brick_collision(self, brick:turtle.Turtle)->bool:
+        if self.distance(brick) < 40:
+            if brick.color() == "green":
+                print(f"Brick collision at {brick.xcor()} {brick.ycor()}")
+                brick.set_color("black")
+                self.dy *= -1
+                self.dx = -self.dx + random.randint(-2, 2)
