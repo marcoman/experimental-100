@@ -74,9 +74,10 @@ class Breakout:
             self.ball.move(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
             for r in self.bricks:
                 for b in r:
-                    if self.ball.check_brick_collision(b):
-                        self.bricks.remove(b)
+                    if (self.ball.check_brick_collision(b)):
                         print("hit")
+                        b.hideturtle()
+                        b.goto(2000,2000)
             self.ball.check_wall_collision()
             self.ball.check_paddle_collision(self.paddle)
             time.sleep(0.05)

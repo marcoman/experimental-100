@@ -61,9 +61,9 @@ class Ball(turtle.Turtle):
             pass
 
     def check_brick_collision(self, brick:turtle.Turtle)->bool:
-        if self.distance(brick) < 40:
-            if brick.color() == "green":
-                print(f"Brick collision at {brick.xcor()} {brick.ycor()}")
-                brick.set_color("black")
-                self.dy *= -1
-                self.dx = -self.dx + random.randint(-2, 2)
+        if brick.isvisible and self.distance(brick) < 40:
+            self.dy *= -1
+            self.dx = -self.dx + random.randint(-2, 2)
+            return True
+        else:
+            return False
