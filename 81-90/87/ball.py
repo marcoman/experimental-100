@@ -43,8 +43,8 @@ class Ball(turtle.Turtle):
             print(f"wall-Top {self.top_side_ball} at {self.screen_height/2}")
 
         if (self.bottom_side_ball < -int(self.screen_height/2)):
-            self.dy *= -1
             print(f"wall-Bottom {self.bottom_side_ball} at {-self.screen_height/2} and {self.ycor()}")
+            self.reset_ball()
        
     def reset_ball(self):
         self.goto(0,0)

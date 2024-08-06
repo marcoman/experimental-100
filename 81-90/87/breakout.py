@@ -95,6 +95,9 @@ class Breakout:
                         self.bricks_left -= 1
                         self.score.add_point()
                         self.score.update_scoreboard(self.bricks_left)
+            if self.bricks_left == 0:
+                print("You win!")
+                self.restart()
             self.ball.check_wall_collision()
             self.ball.check_paddle_collision(self.paddle)
             time.sleep(0.05)
