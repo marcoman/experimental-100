@@ -146,7 +146,7 @@ def cafes():
     result = db.session.execute(db.select(Cafe).order_by(Cafe.name))
     all_cafes = result.scalars().all()
     mylist=[cafe for cafe in all_cafes]
-    print(f'my list is {mylist}')
+    # print(f'my list is {mylist}')
     return render_template('cafes.html', cafes=mylist)
 
 @app.route("/random", methods=["GET"])
@@ -157,8 +157,9 @@ def get_random_cafe():
 
 
 # HTTP DELETE - Delete Record
-@app.route("/delete/<int:cafe_id>", methods=["DELETE"])
-def delete_cafe(cafe_id):
+@app.route("/delete/<int:cafe_id>", methods=['GET', 'DELETE'])
+def delete(cafe_id):
+    print(f'Trying to delete {cafe_id}')
     cafe = db.session.get(Cafe, cafe_id)
     if cafe:
         db.session.delete(cafe)
@@ -167,6 +168,7 @@ def delete_cafe(cafe_id):
     else:
         print(f"Sorry a cafe with that id {cafe_id} was not found in the database.")
 
+    return redirect(url_for('cafes'))
 
 if __name__ == '__main__':
     app.run(debug=True)
