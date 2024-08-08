@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Restaurants{% endblock %}
+{% block title %}Cafe Details{% endblock %}
 
 {% block content %}
 
@@ -7,7 +7,7 @@
   <div class="row">
     <div class="col-sm-12">
 
-      <h1>All Cafes</h1>
+      <h1>{{ cafe.name}}</h1>
 
 	  <table class="table table-dark table-striped table-hover">
           <!-- This is where you will write the code to render a Bootstrap 
@@ -18,15 +18,20 @@
 
           Iterate over the array
           -->
-        
-        {% for cafe in cafes %}
+
           <tr>
-            <td> {{ cafe.name }} </td>
-            {% if ('https') in cafe.map_url %}
-              <td><a href="{{ cafe.map_url }}">Map location</a> </td>
-            {% else %}
-              <td>Map Location</td>
-            {% endif %}
+            <td> Map location </td>
+            <td> Location </td>
+            <td> Number Seats </td>
+            <td> Has Toilet? </td>
+            <td> Has Wifi? </td>
+            <td> Has Sockets? </td>
+            <td> Can take calls? </td>
+            <td> Coffee Price </td>
+          </tr>
+
+          <tr>
+            <td><a href="{{ cafe.map_url }}">Map location</a> </td>
             <td> {{ cafe.location }} </td>
             <td> {{ cafe.seats }} </td>
             <td> {{ cafe.has_toilet }} </td>
@@ -35,7 +40,6 @@
             <td> {{ cafe.can_take_calls }} </td>
             <td> {{ cafe.coffee_price }} </td>
           </tr>
-        {% endfor %}
 
   	  </table>
       <p><a href="/">Return to index page</a></p>
