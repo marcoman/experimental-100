@@ -28,11 +28,12 @@ I can re-use the webiste from a previous assignmets:
 - Start by writing an app that displays a page.
 - Add pages to view a cafe, edit a cafe.
 
-Since this is an open-ended assignment, I intend to run this with two components.
-1. I'll start the API service on its own port and it will generally run as-is.  This is Day 66.
-2. I'll modify the Day62 code to use the API to get the data and display it onscreen.  This means that instead of using SQLite calls in Day62, I'll rely on API calls to the REST interface.
+Since this is an open-ended assignment, I intend to run this idea.
 
-This means starting by copying over day 62 results to my Day 88 folder.  I'll runn that service on port 5001.
+I'll copy over the two projects and call them front-end and back-end.  At the completion, I think my code will only reside with front-end which means I'll display the UI from the Day62 exercise and rely on the database tech to serve up the date.  This means shifting from the csv-based data load to the DB only data load/store and more.
+
+In principle, it should be a porting exercise.
+
 
 # Running
 
@@ -40,20 +41,16 @@ This means starting by copying over day 62 results to my Day 88 folder.  I'll ru
 flask --app main --debug run
 ```
 
+I added a link to the display table to delete a cafe.  This is represented by the stylized ✘ character in red by using the CSS style `text-danger.`  The behavior is fairly straightforward - click on on the ✘ and the cafe is deleted.
 
-I have Postman installed as a VS Code extension, with a preference toward running in Ubuntu.
+At this time, we add a cafe by navigating to the /add URL.  I don't include a link from the main page for add because my goal at this time was to get something workign with the DB-based solution and not the UI.
 
 # External Links
 
 # requirements.txt
 
-# Final Solution
-
 # TODOs
 
-- Persist the high score.
-- Add a "number of lives" count.
-- Enhance the gameplay to let two players play.
-- Enhance the gameplay to let people type in, 'r' to restart.
-- Enhance the gameplay to let people type in, 'q' to quit.
-- position the screen where I want it, rather than have it show up at a random screen location.
+- Add a more proper ADD button or link to the main page.
+- Stretch: add a logon screen and authenticate the user with permissons.
+- Make the UI prettier.  Remember, this is a Proof-of-Concept.
