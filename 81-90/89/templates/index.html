@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="jumbotron text-center">
+  <div class="container">
+  <h1 class="display-4">My TO-DO list 💻</h1>
+  <p class="lead">Manage your life, one task at a time</p>
+  <hr class="my-4">
+  <p>Look at how well organized you are below!</p>
+  <a class="btn btn-warning btn-lg" href="{{ url_for('todos')}}" role="button">Show Me!</a>
+  </div>
+</div>
+
+{% endblock %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sortable List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Sortable List</h2>
+        <ul id="sortable-list" class="list-group">
+            {% for todo in todos %}
+                <li class="list-group-item">{{ todos }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        var el = document.getElementById('sortable-list');
+        var sortable = Sortable.create(el);
+    </script>
+</body>
+</html>
