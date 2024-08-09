@@ -48,19 +48,25 @@ We can display a sortable list with this HTML:
       </ul>
     </div>
 ```
-
-
-
 # Running
 
 ```bash
 flask --app main --debug run
 ```
 
-
 # External Links
 
 # requirements.txt
 
 # TODOs
+
+There is a lot of stuff I can continue to do to make this application better.
+
+- Allow the user to drag-and-drop the table entries to reorder.
+- Enable the reorder buttons to swap items.
+- Allow for an in-line add text box.  The idea is there is a text box always present, and I can add text and press return to add to my list.
+- Maybe do away with the title & description, and only have the title.
+- Add an "order" field to tell us the order of our list.  This has to scale, so I'm inclined to think we add all new items to the bottom of the list.
+    - If we delete, we should probably re-order the remaining items.  This will require an iterator over the remaining items.  I don't know if I want to rely on a different type of sorting algorithm at this time.
+    - The order is not the ID, or a key, but it should be unique.  
 
