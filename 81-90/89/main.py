@@ -51,10 +51,40 @@ class TodoForm(FlaskForm):
     )
     submit = SubmitField('Submit')
 
+class HomeForm(FlaskForm):
+    title = StringField(
+        'Todo title',
+        validators=[DataRequired(), Length(min=2, max=50)]
+    )
+    description = StringField(
+        'Todo description',
+        validators=[DataRequired(), Length(min=2, max=250)]
+    )
+    submit = SubmitField('Submit')
+
 # all Flask routes below
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template("index.html")
+    form = HomeForm()
+
+    if form.validate_on_submit():
+        new_todo = Todo(
+            title=form.title.data,
+            description=form.description.data
+        )
+        db.session.add(new_todo)
+        db.session.commit()
+    else:
+        print("Form not validated")
+
+    result = db.session.execute(db.select(Todo).order_by(Todo.title))
+    todos_all = result.scalars().all()
+    todos_list=[todo for todo in todos_all]
+    print(f'my list is {todos_list}')
+
+
+    return render_template('index.html', todos=todos_list)
+
 
 # all Flask routes below
 @app.route("/todos")
@@ -62,7 +92,7 @@ def todos():
     result = db.session.execute(db.select(Todo).order_by(Todo.title))
     todos_all = result.scalars().all()
     todos_list=[todo for todo in todos_all]
-    # print(f'my list is {todos_list}')
+    print(f'my list is {todos_list}')
     return render_template('todos.html', todos=todos_list)
 
 # HTTP DELETE - Delete Record
@@ -77,4 +107,19 @@ def delete(todo_id):
     else:
         print(f"Sorry a cafe with that id {todo_id} was not found in the database.")
 
-    return redirect(url_for('todos'))
+    return redirect(url_for('home'))
+
+
+# Add a todo to our list
+@app.route("/add", methods=["GET", "POST"])
+def add():
+    form = TodoForm()
+    if form.validate_on_submit():
+        new_todo = Todo(
+            title=form.title.data,
+            description=form.description.data
+        )
+        db.session.add(new_todo)
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template("add.html", form=form)

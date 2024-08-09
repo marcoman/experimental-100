@@ -5,21 +5,25 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-sm-12">
-      <h1>TODO list</h1>
-	  <table class="table table-dark table-striped table-hover">
-        {% for task in tasks %}
-          <tr>
-            <td> {{ task.title }} </td>
-            <td> {{ task.description }} </td>
-            <td class="text-danger"><a href="{{ url_for('delete', task_id=task.id) }}">Mark Complete</a></td>
-            <td class="text-info"><a href="{{ url_for('delete', task_id=task.id) }}">✘</a></td>
+    <div class="container mt-5">
+      <h2>Todos</h2>
+      <ul id="sortable-list" class="list-group">
+        <table class="table table-dark table-striped table-hover">
+          {% for todo in todos %}
+         <tr>
+            <td> {{ todo.title }} </td>
+            <td> {{ todo.description }} </td>
+            <td class="text-danger"><a href="{{ url_for('delete', todo_id=todo.id) }}">✘</a></td>
           </tr>
-        {% endfor %}
-  	  </table>
+          {% endfor %}
+        </table>
+      </ul>
+    </div>
+
+    <div class="col-sm-12">
+      <p><a href="{{ url_for('add')}}">Add a TODO</a></p>
       <p><a href="/">Return to index page</a></p>
     </div>
   </div>
 </div>
-
 {% endblock %}

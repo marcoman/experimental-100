@@ -4,36 +4,47 @@
   <div class="container">
   <h1 class="display-4">My TO-DO list 💻</h1>
   <p class="lead">Manage your life, one task at a time</p>
-  <hr class="my-4">
-  <p>Look at how well organized you are below!</p>
-  <a class="btn btn-warning btn-lg" href="{{ url_for('todos')}}" role="button">Show Me!</a>
   </div>
 </div>
 
+<!-- <div class="container mt-5">
+  <h2>Sortable List</h2>
+  <ul id="sortable-list" class="list-group">
+      {% for todo in todos %}
+        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{ todo }}</li>
+      {% endfor %}
+  </ul>
+</div> -->
+<div class="container">
+<div class="row">
+  <div class="container mt-5">
+    <ul id="sortable-list" class="list-group">
+      <table class="table table-dark table-striped table-hover">
+        {% for todo in todos %}
+       <tr>
+          <td> {{ todo.title }} </td>
+          <td> {{ todo.description }} </td>
+          <td class="text-danger">
+            <a href="{{ url_for('delete', todo_id=todo.id) }}">✘</a>
+            <a href="{{ url_for('home') }}">&#9650;</a>
+            <a href="{{ url_for('home') }}">&#9660;</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </ul>
+  </div>
+
+  <div class="col-sm-12">
+    <p><a href="{{ url_for('add')}}">Add a TODO</a></p>
+  </div>
+</div>
+</div>
+
+<script>
+  var el = document.getElementById('sortable-list');
+  var sortable = Sortable.create(el);
+</script>
+
 {% endblock %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sortable List</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
-</head>
-<body>
-    <div class="container mt-5">
-        <h2>Sortable List</h2>
-        <ul id="sortable-list" class="list-group">
-            {% for todo in todos %}
-                <li class="list-group-item">{{ todos }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-
-    <script>
-        var el = document.getElementById('sortable-list');
-        var sortable = Sortable.create(el);
-    </script>
-</body>
-</html>
