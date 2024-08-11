@@ -12,13 +12,6 @@ import requests
 import json
 import base64
 
-# GCLOUD_ENVIRON = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="/home/marco/Downloads/premium-gear-201100-f9f2a08ce7f7.json"
-# GCLOUD_API_KEY = os.environ["gcloud_api_key"]
-# # print(f'We read {GCLOUD_ENVIRON}')
-# # print(f'We read {os.environ["PROJECT_ID"]}')
-# # print(f'We read {os.environ["gcloud_token"]}')
-# # print(f'We read {os.environ["GOOGLE_APPLICATION_CREDENTIALS"]}')
-
 def extract_text_from_pdf(pdf_file_path):
     with open(pdf_file_path, 'rb') as file:
         pdf_reader = PyPDF2.PdfReader(file)
