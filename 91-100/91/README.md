@@ -35,8 +35,9 @@ First the PDF.  I searched and found libraries such as pyPdf, PyPDF2, and PyPDF4
 
 # Running
 
-To test the curl invocation, run a command like the following, assuming you have a gcloud account and set an environment variable with your `PROJECT_ID`:
+The curl command works just fine.  With my Python code, I used an API key so the format is slightly different.
 
+To test the curl invocation, run a command like the following, assuming you have a gcloud account and set an environment variable with your `PROJECT_ID`:
 
 ```bash
 curl -H "Authorization: Bearer "$(gcloud auth print-access-token) -H "x-goog-user-project: ${PROJECT_ID}" -H "Content-Type: application/json; charset=utf-8" --data "{
@@ -83,4 +84,13 @@ pip install pygame
 
 
 # TODOs
+
+- For fun, work this API on Postman.
+- For fun, investigate alterantive authentication.  At this time, I use an API key that gives me more access than I should have.  I should really investigate how to use an IAM role instead.
+- I could optionally allow a CLI-based invocation to accept parameters for the PDF and output files.  This gives me more flexibility than the hard-coded proof-of-concept.
+- I could also allow additional flags to use different TTS engines.  
+    - One is a python library with arguably lower-quality ressponses, but it is all local and not dependent on the cloud.
+    - Another is to use the Google Python library direction.  This helps me avoid using the requests library.
+    - Another is the build-your-own bear (API) call with the python requests library.  The assignment calls for this use case, and I think it would be better to invoke with the google library instead.
+    
 
