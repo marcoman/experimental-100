@@ -115,6 +115,9 @@ def allowed_file(filename):
 # all Flask routes below
 @app.route("/", methods=['GET', 'POST'])
 def home():
+    global color_map
+    global number_pixels
+
     # If the user pressed submit, then we have to load a new page.
     if request.method == 'POST':
         print("POST")
@@ -137,7 +140,34 @@ def home():
         
     else:
         # load the default page
+        color_map = {}
+        image = Image.open(f"{app.config['UPLOAD_FOLDER']}{app.config['IMAGE_FILENAME']}")
+        number_pixels = image.width * image.height
+        print(f'Number of pixels is {number_pixels}')
         generate_color_map()
         colors = get_top_colors(10)
-    # return render_template('index.html', colors=colors, image=f"{app.config['UPLOAD_FOLDER']}{app.config['IMAGE_FILENAME']}")
-    return render_template('index.html', colors=colors, image="../static/ubuntu14.jpg")
+    return render_template('index.html', colors=colors, image=f"{app.config['UPLOAD_FOLDER']}{app.config['IMAGE_FILENAME']}")
+
+
+@app.route("/upload", methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        print("POST")
+
+        if 'file' not in request.files:
+            print('No file part')
+            return redirect(request.url)
+
+        file = request.files['file']
+
+        if file.filename == '':
+            print('No selected file')
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            filename = file.filename
+            app.config['IMAGE_FILENAME'] = filename
+            file.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}{app.config['IMAGE_FILENAME']}"))
+            return redirect(url_for('home'))
+
+    return render_template('upload.html')
