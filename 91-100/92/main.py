@@ -9,15 +9,21 @@ from wtforms.validators import DataRequired, Length, URL, NumberRange
 
 from flask import request
 from flask import url_for
+import os
+import os
+
+MAX_COUNT = 10
+UPLOAD_FOLDER = 'static/'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['IMAGE_FILENAME'] = "ubuntu14.jpg"
 Bootstrap5(app)
 
-FILENAME="ubuntu14.jpg"
-MAX_COUNT = 10
-
 # Read an image file.
-image = Image.open(FILENAME)
+image = Image.open(f"{app.config['UPLOAD_FOLDER']}{app.config['IMAGE_FILENAME']}")
 color_map = {}
 number_pixels = image.width * image.height
 
@@ -101,17 +107,37 @@ def test_cli():
     for i in range(len(mycolors)):
         print(mycolors[i])
 
-test_cli()
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+# test_cli()
 
 # all Flask routes below
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    # my_map = generate_color_map()
-    # my_sorted_map = generate_sorted_map()
-    # for i in range(10):
-    #     if i >= len(my_sorted_map):
-    #         break
-    #     colors = my_sorted_map[i][0]
-    generate_color_map()
-    colors = get_top_colors(10)
-    return render_template('index.html', colors=colors, image=FILENAME)
+    # If the user pressed submit, then we have to load a new page.
+    if request.method == 'POST':
+        print("POST")
+
+        if 'file' not in request.files:
+            print('No file part')
+            return redirect(request.url)
+    
+        file = request.files['file']
+
+        if file.filename == '':
+            print('No selected file')
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            filename = file.filename
+            app.config['IMAGE_FILENAME'] = filename
+            file.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}{app.config['IMAGE_FILENAME']}"))
+            return redirect(url_for('home'))
+        
+    else:
+        # load the default page
+        generate_color_map()
+        colors = get_top_colors(10)
+    # return render_template('index.html', colors=colors, image=f"{app.config['UPLOAD_FOLDER']}{app.config['IMAGE_FILENAME']}")
+    return render_template('index.html', colors=colors, image="../static/ubuntu14.jpg")
