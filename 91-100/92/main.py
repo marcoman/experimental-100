@@ -1,9 +1,23 @@
 # Imports
 from PIL import Image
 
+from flask import Flask, render_template, redirect
+from flask_bootstrap import Bootstrap5
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired, Length, URL, NumberRange
+
+from flask import request
+from flask import url_for
+
+app = Flask(__name__)
+Bootstrap5(app)
+
+FILENAME="ubuntu14.jpg"
 MAX_COUNT = 10
+
 # Read an image file.
-image = Image.open("ubuntu14.jpg")
+image = Image.open(FILENAME)
 color_map = {}
 number_pixels = image.width * image.height
 
@@ -55,24 +69,49 @@ def print_top_colors(count):
     """
     Returns the top `count` colors from the color map
     """
+    sorted_map=generate_sorted_map()
     for i in range(count):
         if i >= len(sorted_map):
             break
         color = sorted_map[i][0]
         print(f"Color: {get_color(*color)}, Count: {sorted_map[i][1]}, Percentage: {get_percentage(sorted_map[i][1]):.2f}%")
 
-
-def print_color_map():
+def get_top_colors(count):
     """
-    Prints the color map
+    Returns an array of color by color code, the count, and the percentage
     """
-    sorted_map = generate_sorted_map()
-    for color, count in sorted_map:
-        print(f"Color: {get_color_code(*color)}, Count: {count}, Percentage: {get_percentage(count):.2f}%")
+    sorted_map=generate_sorted_map()
+    colors = []
+    for i in range(count):
+        if i >= len(sorted_map):
+            break
+        color = sorted_map[i][0]
+        colors.append((get_color(*color), 
+                      sorted_map[i][1],
+                      f'{get_percentage(sorted_map[i][1]):.2f}%'
+                    ))
+    return colors
 
-generate_color_map()
-print(f'Size of the map is: {len(color_map)}')
-print(f'Number of pixels is {number_pixels}')
-sorted_map = generate_sorted_map()
-print_top_colors(10)
+def test_cli():
+    generate_color_map()
+    print(f'Size of the map is: {len(color_map)}')
+    print(f'Number of pixels is {number_pixels}')
+    # print_top_colors(10)
+    mycolors = get_top_colors(10)
+    for i in range(len(mycolors)):
+        print(mycolors[i])
 
+test_cli()
+
+# all Flask routes below
+@app.route("/", methods=['GET', 'POST'])
+def home():
+    # my_map = generate_color_map()
+    # my_sorted_map = generate_sorted_map()
+    # for i in range(10):
+    #     if i >= len(my_sorted_map):
+    #         break
+    #     colors = my_sorted_map[i][0]
+    generate_color_map()
+    colors = get_top_colors(10)
+    return render_template('index.html', colors=colors, image=FILENAME)
