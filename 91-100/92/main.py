@@ -16,16 +16,12 @@ MAX_COUNT = 10
 UPLOAD_FOLDER = 'static/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
-
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['IMAGE_FILENAME'] = "ubuntu14.jpg"
+filename = "ubuntu14.jpg"
 Bootstrap5(app)
 
-# Read an image file.
-image = Image.open(f"{app.config['UPLOAD_FOLDER']}{app.config['IMAGE_FILENAME']}")
-color_map = {}
-number_pixels = image.width * image.height
+image = Image.open(f"{app.config['UPLOAD_FOLDER']}{filename}")
 
 def get_color_code(red, green, blue):
     """
@@ -55,6 +51,7 @@ def generate_color_map():
     Generates a color map for the image
     """
     global color_map
+    global image
     # Iterate over the image file for each pixel, and note the color.  Build a map to hold the data
     for x in range(image.width):
         for y in range(image.height):
@@ -117,6 +114,7 @@ def allowed_file(filename):
 def home():
     global color_map
     global number_pixels
+    global filename
 
     # If the user pressed submit, then we have to load a new page.
     if request.method == 'POST':
@@ -134,23 +132,36 @@ def home():
 
         if file and allowed_file(file.filename):
             filename = file.filename
-            app.config['IMAGE_FILENAME'] = filename
-            file.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}{app.config['IMAGE_FILENAME']}"))
+            file.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}{filename}"))
+            image = Image.open(f"{app.config['UPLOAD_FOLDER']}{filename}")
+            color_map = {}
+            number_pixels = image.width * image.height
+            print(f'New File number of pixels in {filename} is {number_pixels}')
+            generate_color_map()
+            colors = get_top_colors(10)
+
             return redirect(url_for('home'))
+            # return render_template('index.html', colors=colors, image=f"{app.config['UPLOAD_FOLDER']}{filename}")
         
     else:
-        # load the default page
         color_map = {}
-        image = Image.open(f"{app.config['UPLOAD_FOLDER']}{app.config['IMAGE_FILENAME']}")
+        image = Image.open(f"{app.config['UPLOAD_FOLDER']}{filename}")
         number_pixels = image.width * image.height
-        print(f'Number of pixels is {number_pixels}')
+        print(f'Non-POST.  Number of pixels in {filename} is {number_pixels}')
         generate_color_map()
         colors = get_top_colors(10)
-    return render_template('index.html', colors=colors, image=f"{app.config['UPLOAD_FOLDER']}{app.config['IMAGE_FILENAME']}")
+        #print the colors
+        print(f'Colors are: {colors}')
+
+    return render_template('index.html', colors=colors, image=f"{app.config['UPLOAD_FOLDER']}{filename}")
 
 
 @app.route("/upload", methods=['GET', 'POST'])
 def upload():
+    global color_map
+    global number_pixels
+    global image
+
     if request.method == 'POST':
         print("POST")
 
@@ -165,9 +176,18 @@ def upload():
             return redirect(request.url)
 
         if file and allowed_file(file.filename):
+            print("File is good")
+            print(file.filename)
+            color_map = {}
             filename = file.filename
-            app.config['IMAGE_FILENAME'] = filename
-            file.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}{app.config['IMAGE_FILENAME']}"))
-            return redirect(url_for('home'))
+            file.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}{filename}"))
+            image = Image.open(f"{app.config['UPLOAD_FOLDER']}{filename}")
+            number_pixels = image.width * image.height
+            print(f'Upload of pixels in {filename} is {number_pixels}')
+            generate_color_map()
+            colors = get_top_colors(10)
+            print(f'Colors are: {colors}')
+            # return redirect(url_for('home'), colors=colors)
+            return render_template('index.html', colors=colors, image=f"{app.config['UPLOAD_FOLDER']}{filename}")
 
     return render_template('upload.html')
