@@ -34,9 +34,14 @@ Here are some suggestions:
 
 See Day 53 for my previous example.
 
+I am reminded that I needed to use the selenium driver to render the javascript-based pages.  Javascript is popular to display tables or extra data, and a regular page request doesn't bring in all the data.
+
 
 # Running
 
+```
+python3 main.py
+```
 
 # External Links
 
@@ -46,3 +51,4 @@ See Day 53 for my previous example.
 
 # TODOs
 
+- instead of cutting-and-pasting the full XPath, and then modifying the format, let's instead use a library to conver the XPath into a format that is convenient to use with Beautiful Soup.
