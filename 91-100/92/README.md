@@ -48,30 +48,6 @@ flask --app main --debug run
 
 # TODOs
 
-- Figure out why PNGs do not work.  I suspect it is about the way the image details come back differently.  This is what I see:
-```
-File is good
-Focal-Fossa_WP_1920x1080_1.png
-Upload of pixels in Focal-Fossa_WP_1920x1080_1.png is 2073600
-127.0.0.1 - - [12/Aug/2024 20:13:26] "POST /upload HTTP/1.1" 500 -
-Traceback (most recent call last):
-  File "/home/marco/.local/lib/python3.10/site-packages/flask/app.py", line 2213, in __call__
-    return self.wsgi_app(environ, start_response)
-  File "/home/marco/.local/lib/python3.10/site-packages/flask/app.py", line 2193, in wsgi_app
-    response = self.handle_exception(e)
-  File "/home/marco/.local/lib/python3.10/site-packages/flask/app.py", line 2190, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/marco/.local/lib/python3.10/site-packages/flask/app.py", line 1486, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/marco/.local/lib/python3.10/site-packages/flask/app.py", line 1484, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/marco/.local/lib/python3.10/site-packages/flask/app.py", line 1469, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/marco/code/marcoman/experimental-100/91-100/92/main.py", line 188, in upload
-    colors = get_top_colors(10)
-  File "/home/marco/code/marcoman/experimental-100/91-100/92/main.py", line 92, in get_top_colors
-    colors.append((get_color(*color),
-TypeError: main.get_color() argument after * must be an iterable, not int
-127.0.0.1 - - [12/Aug/2024 20:13:26] "GET /upload?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
-```
-
+- FIXED.  Figure out why PNGs do not work.  I suspect it is about the way the image details come back differently.  This is what I see:
+  - I've seen this before  in Day 85.  
+- Convert  the image load code into a method, since it is mostly cut-and-pasted 3 times.
