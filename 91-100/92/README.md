@@ -5,6 +5,18 @@ This is the day 92 assignment.
 ## _From the course:_
 A website that finds the most common colours in an uploaded image.
 
+One of my favourite websites to go to when I'm designing anything is a colour palette website called Flat UI Colors.
+
+https://flatuicolors.com/palette/defo
+
+It's a really simple static website that shows a bunch of colours and their HEX codes. I can copy the HEX codes and use it in my CSS or any design software.
+
+On day 76, you learnt about image processing with NumPy. Using this knowledge and your developer skills (that means Googling), build a website where a user can upload an image and you will tell them what are the top 10 most common colours in that image.
+
+This is a good example of this functionality:
+
+http://www.coolphptools.com/color_extract#demo
+
 
 
 ## My comments:
@@ -17,6 +29,8 @@ To me this sounds like a linear operation:
 - Build a list for each of the colors (sounds like a map)
 - Sort the map from smallest count to largest.
 - Produce the results.
+
+At this time, this application works - but not with PNGs files.  It does work with JPEGs.  I could or should investigate, but I want to move onto the next assignment.
 
 
 # Running
@@ -33,4 +47,31 @@ flask --app main --debug run
 # requirements.txt
 
 # TODOs
+
+- Figure out why PNGs do not work.  I suspect it is about the way the image details come back differently.  This is what I see:
+```
+File is good
+Focal-Fossa_WP_1920x1080_1.png
+Upload of pixels in Focal-Fossa_WP_1920x1080_1.png is 2073600
+127.0.0.1 - - [12/Aug/2024 20:13:26] "POST /upload HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/marco/.local/lib/python3.10/site-packages/flask/app.py", line 2213, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/marco/.local/lib/python3.10/site-packages/flask/app.py", line 2193, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/marco/.local/lib/python3.10/site-packages/flask/app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/marco/.local/lib/python3.10/site-packages/flask/app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/marco/.local/lib/python3.10/site-packages/flask/app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/marco/.local/lib/python3.10/site-packages/flask/app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/marco/code/marcoman/experimental-100/91-100/92/main.py", line 188, in upload
+    colors = get_top_colors(10)
+  File "/home/marco/code/marcoman/experimental-100/91-100/92/main.py", line 92, in get_top_colors
+    colors.append((get_color(*color),
+TypeError: main.get_color() argument after * must be an iterable, not int
+127.0.0.1 - - [12/Aug/2024 20:13:26] "GET /upload?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+```
 
