@@ -133,25 +133,49 @@ def home():
         if file and allowed_file(file.filename):
             filename = file.filename
             file.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}{filename}"))
-            image = Image.open(f"{app.config['UPLOAD_FOLDER']}{filename}")
-            color_map = {}
-            number_pixels = image.width * image.height
-            print(f'New File number of pixels in {filename} is {number_pixels}')
-            generate_color_map()
-            colors = get_top_colors(10)
+            # maybe next time something like this:
+            with Image.open(f"{app.config['UPLOAD_FOLDER']}{filename}") as im:
+                if im.mode != 'RGB':
+                    image = im.convert('RGB')
+                else:
+                    image = im
+                color_map = {}
+                number_pixels = image.width * image.height
+
+                # image = Image.open(f"{app.config['UPLOAD_FOLDER']}{filename}")
+                # color_map = {}
+                # number_pixels = image.width * image.height
+                print(f'New File number of pixels in {filename} is {number_pixels}')
+                generate_color_map()
+                colors = get_top_colors(10)
 
             return redirect(url_for('home'))
             # return render_template('index.html', colors=colors, image=f"{app.config['UPLOAD_FOLDER']}{filename}")
         
     else:
-        color_map = {}
-        image = Image.open(f"{app.config['UPLOAD_FOLDER']}{filename}")
-        number_pixels = image.width * image.height
-        print(f'Non-POST.  Number of pixels in {filename} is {number_pixels}')
-        generate_color_map()
-        colors = get_top_colors(10)
-        #print the colors
-        print(f'Colors are: {colors}')
+        with Image.open(f"{app.config['UPLOAD_FOLDER']}{filename}") as im:
+            if im.mode != 'RGB':
+                image = im.convert('RGB')
+            else:
+                image = im
+            color_map = {}
+            number_pixels = image.width * image.height
+            print(f'Non-POST.  Number of pixels in {filename} is {number_pixels}')
+
+            # image = Image.open(f"{app.config['UPLOAD_FOLDER']}{filename}")
+            number_pixels = image.width * image.height
+            print(f'New File number of pixels in {filename} is {number_pixels}')
+            generate_color_map()
+            colors = get_top_colors(10)
+
+        # image = Image.open(f"{app.config['UPLOAD_FOLDER']}{filename}")
+        # color_map = {}
+        # number_pixels = image.width * image.height
+        # print(f'Non-POST.  Number of pixels in {filename} is {number_pixels}')
+        # generate_color_map()
+        # colors = get_top_colors(10)
+        # #print the colors
+        # print(f'Colors are: {colors}')
 
     return render_template('index.html', colors=colors, image=f"{app.config['UPLOAD_FOLDER']}{filename}")
 
@@ -181,13 +205,29 @@ def upload():
             color_map = {}
             filename = file.filename
             file.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}{filename}"))
-            image = Image.open(f"{app.config['UPLOAD_FOLDER']}{filename}")
-            number_pixels = image.width * image.height
-            print(f'Upload of pixels in {filename} is {number_pixels}')
-            generate_color_map()
-            colors = get_top_colors(10)
-            print(f'Colors are: {colors}')
-            # return redirect(url_for('home'), colors=colors)
+            with Image.open(f"{app.config['UPLOAD_FOLDER']}{filename}") as im:
+                if im.mode != 'RGB':
+                    image = im.convert('RGB')
+                else:
+                    image = im
+                color_map = {}
+                number_pixels = image.width * image.height
+                print(f'Upload of pixels in {filename} is {number_pixels}')
+
+                # image = Image.open(f"{app.config['UPLOAD_FOLDER']}{filename}")
+                # number_pixels = image.width * image.height
+                # print(f'New File number of pixels in {filename} is {number_pixels}')
+                generate_color_map()
+                colors = get_top_colors(10)
+
+
+            # image = Image.open(f"{app.config['UPLOAD_FOLDER']}{filename}")
+            # number_pixels = image.width * image.height
+            # print(f'Upload of pixels in {filename} is {number_pixels}')
+            # generate_color_map()
+            # colors = get_top_colors(10)
+            # print(f'Colors are: {colors}')
+            # # return redirect(url_for('home'), colors=colors)
             return render_template('index.html', colors=colors, image=f"{app.config['UPLOAD_FOLDER']}{filename}")
 
     return render_template('upload.html')
