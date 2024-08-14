@@ -2,16 +2,16 @@
 # I suspect what i need to do is open the browser indepenedent of this application, and then run it.  I don't think I'm driving the web application from this app.
 
 import pyautogui
-import pyautogui._pyautogui_x11 as platformModule
-#import pyautogui._pyautogui_win as platformModule
+#import pyautogui._pyautogui_x11 as platformModule
+import pyautogui._pyautogui_win as platformModule
 import mss
 import os
 
     
 from time import sleep
-os.environ['DISPLAY'] = ':0'
-with mss.mss() as sct:
-    sct.shot()
+# os.environ['DISPLAY'] = ':0'
+# with mss.mss() as sct:
+#     sct.shot()
 
 
 
@@ -43,21 +43,47 @@ print(f'Your screen height and width are {screenHeight} and {screenWidth}')
 
 #     sleep(0.25 )
 
-XPOS = 300
+XPOS = 600
+CONFIDENCE = 1
+REGION = (775, 1245, 1000, 15)
 
 for i in range(0, 500):
-    print(f'Loop {i}')
-    cactus_big = pyautogui.locateOnScreen('cactus-big.png')
-    cactus_small = pyautogui.locateOnScreen('cactus-small.png')
-    cactus_two = pyautogui.locateOnScreen('cactus-two.png')
-    cactus_three = pyautogui.locateOnScreen('cactus-three.png')
+    # print(f'Loop {i}')
+    # print(pyautogui.position())
+    try:
+        if pyautogui.locateOnScreen('dot.png', confidence=CONFIDENCE, region=REGION)[0] < XPOS:
+            print("cactus-big")
+            pyautogui.press('space')
+            continue
+    except pyautogui.ImageNotFoundException:
+        # print("Exception")
+        pass
 
-    if (cactus_three[0] == XPOS or
-        cactus_two[0] == XPOS or
-        cactus_big[0] == XPOS or
-        cactus_small[0] == XPOS):
-        pyautogui.press('space')
-        sleep(0.3)
-    else:
-        print("No cactus")
-        sleep(0.1)
+    # try:
+    #     if pyautogui.locateOnScreen('cs.png', confidence=CONFIDENCE, region=REGION)[0] < XPOS:
+    #         print("cactus-small")
+    #         pyautogui.press('space')
+    #         continue
+    # except pyautogui.ImageNotFoundException:
+    #     # print("Exception")
+    #     pass
+
+    # try:
+    #     if pyautogui.locateOnScreen('c2.png', confidence=CONFIDENCE, region=REGION)[0] < XPOS:
+    #         print("cactus-two")
+    #         pyautogui.press('space')
+    #         continue
+    # except pyautogui.ImageNotFoundException:
+    #     # print("Exception")
+    #     pass
+
+    # try:
+    #     if pyautogui.locateOnScreen('c3.png', confidence=CONFIDENCE, region=REGION)[0] < XPOS:
+    #         print("cactus-three")
+    #         pyautogui.press('space')
+    #         continue
+
+    # except pyautogui.ImageNotFoundException:
+    #     # print("Exception")
+    #     pass
+      

@@ -41,6 +41,8 @@ xauth list
 ```
 python3 main.py
 ```
+![alt text](image.png)
+![alt text](image.png)
 ![big cactus](cactus.png)
 ![small cactus](cactus-small.png)
 ![three cactii](cactus-three.png)
@@ -51,6 +53,7 @@ python3 main.py
 
 - [Pillow](https://pypi.org/project/pillow/)
 - [PyAutoGUI](https://pyautogui.readthedocs.io/en/latest/)
+- [Stack Overflow, debug - locateOnScreen](https://stackoverflow.com/questions/48709009/python-3-6-3-pyautogui-locateonscreen-not-working)
 
 # requirements.txt
 
