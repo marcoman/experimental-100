@@ -2,8 +2,8 @@
 # I suspect what i need to do is open the browser indepenedent of this application, and then run it.  I don't think I'm driving the web application from this app.
 
 import pyautogui
-import pyautogui._pyautogui_x11 as platformModule
-# import pyautogui._pyautogui_win as platformModule
+# import pyautogui._pyautogui_x11 as platformModule
+import pyautogui._pyautogui_win as platformModule
 import mss
 import os
 
@@ -45,45 +45,17 @@ print(f'Your screen height and width are {screenHeight} and {screenWidth}')
 
 XPOS = 600
 CONFIDENCE = 1
-REGION = (775, 1245, 1000, 15)
+REGION = (300, 1245, 200, 15)
+PIXEL_LEFT = 1000
 
-for i in range(0, 500):
-    # print(f'Loop {i}')
-    # print(pyautogui.position())
-    try:
-        if pyautogui.locateOnScreen('dot.png', confidence=CONFIDENCE, region=REGION)[0] < XPOS:
-            print("cactus-big")
-            pyautogui.press('space')
-            continue
-    except pyautogui.ImageNotFoundException:
-        # print("Exception")
-        pass
-
-    # try:
-    #     if pyautogui.locateOnScreen('cs.png', confidence=CONFIDENCE, region=REGION)[0] < XPOS:
-    #         print("cactus-small")
-    #         pyautogui.press('space')
-    #         continue
-    # except pyautogui.ImageNotFoundException:
-    #     # print("Exception")
-    #     pass
-
-    # try:
-    #     if pyautogui.locateOnScreen('c2.png', confidence=CONFIDENCE, region=REGION)[0] < XPOS:
-    #         print("cactus-two")
-    #         pyautogui.press('space')
-    #         continue
-    # except pyautogui.ImageNotFoundException:
-    #     # print("Exception")
-    #     pass
-
-    # try:
-    #     if pyautogui.locateOnScreen('c3.png', confidence=CONFIDENCE, region=REGION)[0] < XPOS:
-    #         print("cactus-three")
-    #         pyautogui.press('space')
-    #         continue
-
-    # except pyautogui.ImageNotFoundException:
-    #     # print("Exception")
-    #     pass
+while (True):
+    # currentMouseX, currentMouseY = pyautogui.position()
+    # print(pyautogui.pixel(currentMouseX, currentMouseY))
+    if pyautogui.pixelMatchesColor(PIXEL_LEFT,1185, (83,83,83), tolerance=8):
+        # print('obstacle!')
+        pyautogui.press('space')
+    elif pyautogui.pixelMatchesColor(PIXEL_LEFT,1500, (83,83,83), tolerance=8):
+        # print(pyautogui.position())
+        # print('obstacle!')
+        pyautogui.press('down')
       
