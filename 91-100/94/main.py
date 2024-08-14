@@ -3,8 +3,16 @@
 
 import pyautogui
 import pyautogui._pyautogui_x11 as platformModule
+#import pyautogui._pyautogui_win as platformModule
+import mss
+import os
 
+    
 from time import sleep
+os.environ['DISPLAY'] = ':0'
+with mss.mss() as sct:
+    sct.shot()
+
 
 
 TREX_GAME = "https://elgoog.im/t-rex/"
