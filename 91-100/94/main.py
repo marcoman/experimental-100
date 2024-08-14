@@ -2,8 +2,8 @@
 # I suspect what i need to do is open the browser indepenedent of this application, and then run it.  I don't think I'm driving the web application from this app.
 
 import pyautogui
-#import pyautogui._pyautogui_x11 as platformModule
-import pyautogui._pyautogui_win as platformModule
+import pyautogui._pyautogui_x11 as platformModule
+# import pyautogui._pyautogui_win as platformModule
 import mss
 import os
 

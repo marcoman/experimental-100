@@ -41,8 +41,6 @@ xauth list
 ```
 python3 main.py
 ```
-![alt text](image.png)
-![alt text](image.png)
 ![big cactus](cactus.png)
 ![small cactus](cactus-small.png)
 ![three cactii](cactus-three.png)
