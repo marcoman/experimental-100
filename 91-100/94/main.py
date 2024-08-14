@@ -31,6 +31,7 @@ TEST_URL = TREX_GAME
 screenWidth, screenHeight = pyautogui.size()
 print(f'Your screen height and width are {screenHeight} and {screenWidth}')
 
+# This is a test function.
 # for i in range(0, 50):
 #     print(f'Loop {i}')
 #     currentMouseX, currentMouseY = pyautogui.position()
