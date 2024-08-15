@@ -1,6 +1,6 @@
 from turtle import Turtle, Screen
 import time
-import random
+import math
 
 import base
 import scoreboard
@@ -22,7 +22,7 @@ class Invaders:
     MISSILES_X = 0
     MISSILES_Y = 15
     
-    BOMBS_MAX = 2
+    BOMBS_MAX = 1
 
     X_RIGHT = (SCREEN_WIDTH - 2*GAPSIZE) / 2
     X_LEFT = -X_RIGHT   
@@ -40,6 +40,9 @@ class Invaders:
         self.missile = None
         self.missile_count = 0
 
+        self.bomb = None
+        self.bomb_count = 0
+        
         self.aliens = [[Alien for _ in range(self.ALIEN_COLS)] for _ in range(self.ALIEN_ROWS)]
         self.scoreboard = scoreboard.Scoreboard()
         self.base = base.Base(position=-self.X_LEFT, height=self.SCREEN_HEIGHT, width=self.SCREEN_WIDTH)
@@ -79,11 +82,53 @@ class Invaders:
                                 self.scoreboard.update_scoreboard(10)
                                 self.missile.hideturtle()
                                 break
-            
+            if self.bomb_count > 0:
+                self.move_bombs()
+                if self.bomb.check_floor_collision():
+                    self.bomb_count = 0
+                    self.bomb.hideturtle()
+                elif self.bomb.check_base_collision(self.base):
+                    self.bomb_count = 0
+                    self.bomb.hideturtle()
+                    self.base_hit()
+
+            if self.bomb_count < self.BOMBS_MAX:
+                bomb_check = [ 0 for _ in range (self.ALIEN_COLS)]
+                # We need to check from bottom row to top  row
+                for row in range(self.ALIEN_ROWS-1, -1, -1):
+                    for col in range(0, self.ALIEN_COLS):
+                        if self.aliens[row][col].alive:
+                            if abs(self.aliens[row][col].xcor() - self.base.xcor()) < self.BASE_SIZE:
+                                bomb_check[col] = 1
+                                self.drop_bomb(self.aliens[row][col].position())
+                                break
+                    if sum(bomb_check) > 0:
+                        break
+                    
+                
             self.myscreen.update()
             self.limit -= 1
             time.sleep(0.05)
         self.myscreen.exitonclick()
+        
+    def base_hit(self):
+        print("You were hit!")
+
+    def drop_bomb(self, position):
+        print(f'dropping a bomb from {position[0]}')
+        if self.bomb_count == 0:
+            self.bomb_count = 1
+            self.bomb = missile.Missile(x=position[0],
+                                            y=position[1],
+                                            dy=-self.MISSILES_Y,
+                                            screen_width=self.SCREEN_WIDTH,
+                                            screen_height=self.SCREEN_HEIGHT,
+                                            color="yellow",
+                                            r=5,
+                                            heading=270
+                                            )
+        else:
+            print("too many bombs")
         
     def shoot(self):
         # When the player shoots, we must launch a missle.
@@ -168,6 +213,13 @@ class Invaders:
             self.missile.move()
         else:
             pass
+
+    def move_bombs(self):
+        if self.bomb_count > 0:
+            self.bomb.move()
+        else:
+            pass
+
 
     def reset_base(self):
         print(f"reset base x,y are {self.base.xcor()}, {self.base.ycor()}")
