@@ -1,0 +1,31 @@
+from turtle import Turtle, Screen
+
+class Alien(Turtle):
+    myscreen = Screen()
+
+    ALIEN_SIZE = 30
+    ALIEN_ROWS = 5
+    ALIEN_COLS = 10
+    ALIEN_SPEED = 0.1
+    ALIEN_DIRECTION = 1
+    ALIEN_DROP_DISTANCE = 20
+    ALIEN_DROP_SPEED = 0.1
+    ALIEN_DROP_INTERVAL = 0.5
+    ALIEN_BULLET_SPEED = 0.2
+    ALIEN_BULLET_DISTANCE = 20
+    ALIEN_BULLET_INTERVAL = 0.5
+    ALIEN_BULLET_CHANCE = 0.1
+    ALIEN_BULLET_COLOR = "red"
+    ALIEN_BULLET_SHAPE = "circle"
+    ALIEN_BULLET_SIZE = 10
+    ALIEN_BULLET_WIDTH = 2
+    ALIEN_BULLET_OUTLINE = 1
+    ALIEN_BULLET_SPEED = 0.2
+    ALIEN_BULLET_DISTANCE = 20
+    ALIEN_BULLET_INTERVAL = 0.5
+    ALIEN_BULLET_CHANCE = 0.1
+
+    def __init__(self, name, planet):
+        pass
+
+    
