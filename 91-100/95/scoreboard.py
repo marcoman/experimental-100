@@ -19,12 +19,13 @@ class Scoreboard(turtle.Turtle):
 
     def update_scoreboard(self, newscore):
         self.clear()
-        self.goto(0, -250)
+        self.goto(0, 250)
         self.color(self.TEXT_COLOR)
-        self.score = newscore
+        self.score += newscore
         if self.score > self.high_score:
             self.high_score = self.score
         self.write(f"Score:{self.score} High:{self.high_score}",  align=self.TEXT_ALIGN, font=self.TEXT_FONT)
+        print (f'Score is {self.score}')
 
     def reset_scoreboard(self):
         self.score = 0

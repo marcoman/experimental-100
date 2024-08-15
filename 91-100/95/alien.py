@@ -1,31 +1,36 @@
-from turtle import Turtle, Screen
+import turtle
+import missile
 
-class Alien(Turtle):
-    myscreen = Screen()
+class Alien(turtle.Turtle):
+    myscreen = turtle.Screen()
 
-    ALIEN_SIZE = 30
-    ALIEN_ROWS = 5
-    ALIEN_COLS = 10
-    ALIEN_SPEED = 0.1
-    ALIEN_DIRECTION = 1
-    ALIEN_DROP_DISTANCE = 20
-    ALIEN_DROP_SPEED = 0.1
-    ALIEN_DROP_INTERVAL = 0.5
-    ALIEN_BULLET_SPEED = 0.2
-    ALIEN_BULLET_DISTANCE = 20
-    ALIEN_BULLET_INTERVAL = 0.5
-    ALIEN_BULLET_CHANCE = 0.1
-    ALIEN_BULLET_COLOR = "red"
-    ALIEN_BULLET_SHAPE = "circle"
-    ALIEN_BULLET_SIZE = 10
-    ALIEN_BULLET_WIDTH = 2
-    ALIEN_BULLET_OUTLINE = 1
-    ALIEN_BULLET_SPEED = 0.2
-    ALIEN_BULLET_DISTANCE = 20
-    ALIEN_BULLET_INTERVAL = 0.5
-    ALIEN_BULLET_CHANCE = 0.1
+    def __init__(self, x, y, color, screen_width, screen_height, alive:bool):
+        turtle.Turtle.__init__(self)
+        self.screen_width = screen_width
+        self.screen_height = screen_height
+        self.alive = alive
+        self.penup()
+        self.x = x
+        self.y = y
+        self.shape("turtle")
+        self.setheading(85)
+        self.shapesize(1)
+        self.color(color)
+        self.goto(x, y)
 
-    def __init__(self, name, planet):
-        pass
-
+    def set_color(self, color):
+        self.color(color)
+    
+    def move(self, x, y):
+        new_x = self.xcor() + x
+        new_y = self.ycor() + y
+        if new_x < -self.screen_width / 2:
+            new_x = -self.screen_width / 2
+        elif new_x > self.screen_width / 2:
+            new_x = self.screen_width / 2
+        if new_y < -self.screen_height / 2:
+            new_y = -self.screen_height / 2
+        elif new_y > self.screen_height / 2:
+            new_y = self.screen_height / 2
+        self.goto(new_x, new_y)
     

@@ -43,6 +43,8 @@ class Base(turtle.Turtle):
 
     def shoot(self):
         print('shoot')
+        
+        # Show a missle
 
     def setup_base(self):
         pass
