@@ -19,6 +19,9 @@ https://elgoog.im/space-invaders/
 
 ## My comments:
 
+
+For all intents, this game is done as a proof of concept.  I could add a shielding house to absorb the bombs from the aliens.  See the TODO for the list of outstanding items.
+
 Feels like a turtle game (yes)
 Also, I'll borrow from the blocks game and define a grid of space invaders such as 5 rows of 10 columns with ample spacing.
 I'll have my blaster at the bottom, and it shoots as long as there isn't a sprite still on screen.
@@ -40,3 +43,7 @@ When they reach the end of the wall, they drop one level, change directions, and
 
 # TODOs
 
+- End the game if I reach the floor.
+- Allow the player to restart their game.
+- Add a screen popup saying "GAME OVER"
+- If I clear all aliens, start a new round with slightly faster aliens.

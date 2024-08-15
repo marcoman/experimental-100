@@ -7,6 +7,8 @@ import scoreboard
 import missile
 
 from alien import Alien
+from time import sleep
+from time import sleep
 
 
 class Invaders:
@@ -23,6 +25,7 @@ class Invaders:
     MISSILES_Y = 15
     
     BOMBS_MAX = 1
+    BOMBS_Y = 5
 
     X_RIGHT = (SCREEN_WIDTH - 2*GAPSIZE) / 2
     X_LEFT = -X_RIGHT   
@@ -31,14 +34,16 @@ class Invaders:
     ALIEN_PULSE = 10
     ALIEN_ROWS = 5
     ALIEN_COLS = int((SCREEN_WIDTH - 4 * GAPSIZE) / ((GAPSIZE + ALIEN_SIZE)))
+    ALIEN_PAUSE = 20
     
     x_adjust = 0
     y_adjust = 0
-        
+    
     def __init__(self) -> None:
         self.game_on = False
         self.missile = None
         self.missile_count = 0
+        self.lives = 3
 
         self.bomb = None
         self.bomb_count = 0
@@ -59,10 +64,12 @@ class Invaders:
 
     def playgame(self):
         self.gameon = True
-        self.limit = 2000
-        while self.gameon and self.limit > 0:
+        self.limit = 1
+        while self.gameon:
             # print (f'Step {self.limit}')
-            if (self.limit % 10 == 0): self.move_invaders()
+            if (self.limit % self.ALIEN_PAUSE == 0): 
+                self.move_invaders()
+                self.limit = 1
 
             if self.missile_count > 0:
                 self.move_missile()
@@ -89,6 +96,7 @@ class Invaders:
                     self.bomb.hideturtle()
                 elif self.bomb.check_base_collision(self.base):
                     self.bomb_count = 0
+                    self.lives -= 1
                     self.bomb.hideturtle()
                     self.base_hit()
 
@@ -104,15 +112,24 @@ class Invaders:
                                 break
                     if sum(bomb_check) > 0:
                         break
-                    
-                
+
+            if self.lives < 1:
+                self.gameon = False
+                self.game_over()
+            self.limit += 1
             self.myscreen.update()
-            self.limit -= 1
             time.sleep(0.05)
         self.myscreen.exitonclick()
+
+    def game_over(self):
+        print("You ran out of lives.")
         
     def base_hit(self):
         print("You were hit!")
+        self.myscreen.bgcolor("red")
+        sleep(0.2)
+        self.myscreen.bgcolor("darkblue")
+    
 
     def drop_bomb(self, position):
         print(f'dropping a bomb from {position[0]}')
@@ -120,7 +137,7 @@ class Invaders:
             self.bomb_count = 1
             self.bomb = missile.Missile(x=position[0],
                                             y=position[1],
-                                            dy=-self.MISSILES_Y,
+                                            dy=-self.BOMBS_Y,
                                             screen_width=self.SCREEN_WIDTH,
                                             screen_height=self.SCREEN_HEIGHT,
                                             color="yellow",
@@ -168,7 +185,7 @@ class Invaders:
         for row in range(0, self.ALIEN_ROWS):
             for col in range(0, self.ALIEN_COLS):
                 print(f'Saving {row} {col}')
-                if col % 1:
+                if col % 1 == 0:
                     alien_color = "red"
                 else:
                     alien_color = "orange"
