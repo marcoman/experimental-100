@@ -39,10 +39,15 @@ Here are some example APIs from the course
 
 I appreciate the sample APIs.  I will probably use one of those.
 I am using the sound affects API to get a list of sounds, and present their links.  However, I won't download at this time.
+This is a proof-of-concept example, where i display a page with a default list, and there are download links to get the files.
+I also have a query link that takes you to a page where you can enter a new query string.  This redirects to the main page to show you the files and their download links.
+The download is only allowed if you are logged on.
 
 # Running
 
-
+```bash
+flask --app main run
+```
 
 # External Links
 
@@ -51,3 +56,9 @@ I am using the sound affects API to get a list of sounds, and present their link
 
 
 # TODOs
+
+- Add pagination to the screen, to let people see additional pages.
+- Consider adding the capability to play the sound in-line.
+- reduce the number of rows to make the screen nicer to see.  
+- Add additional data, perhaps a link to the license.
+- display the page's context, in terms of the search word
