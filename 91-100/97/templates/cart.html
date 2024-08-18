@@ -1,0 +1,45 @@
+{% include "header.html" %}
+
+<!-- Page Header-->
+<header
+  class="masthead"
+  style="background-image: url('../static/assets/img/home-bg.jpg')"
+>
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="site-heading">
+          <h1>The Junk in my Trunk</h1>
+          <span class="subheading">Items in my cart</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      <!-- item preview-->
+      {% for item in cart_items %}
+      <div class="post-preview">
+        <a href="{{ url_for('show_item', item_id=item.id) }}">
+          <h2 class="item-title">{{ item.title }}</h2>
+          <h2 class="item-id">{{ item.item_id }}</h2>
+          <h3 class="item-price">{{ item.price }}</h3>
+        </a>
+      </div>
+      <!-- Divider-->
+      <hr class="my-4" />
+      {% endfor %}
+      <p class="post-meta">
+        Total Price: {{total_price}}
+      </p>
+      <p>
+        <a href="{{url_for('buy_now') }}">Buy Now</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+{% include "footer.html" %}
