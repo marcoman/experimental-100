@@ -1,5 +1,5 @@
 from datetime import date
-from flask import Flask, abort, render_template, redirect, url_for, flash
+from flask import Flask, abort, render_template, redirect, url_for, flash, jsonify
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
 from flask_gravatar import Gravatar
@@ -12,24 +12,18 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # Import your forms from the forms.py
 from forms import CreateItemForm, RegisterForm, LoginForm, CommentForm
 
+import json
+import stripe
+import os
 
-'''
-Make sure the required packages are installed: 
-Open the Terminal in PyCharm (bottom left). 
-
-On Windows type:
-python -m pip install -r requirements.txt
-
-On MacOS type:
-pip3 install -r requirements.txt
-
-This will install the packages from the requirements.txt for this project.
-'''
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 ckeditor = CKEditor(app)
 Bootstrap5(app)
+
+# Read the strip api key from the environment variable STRIPE_SECRET_KEY
+stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
 
 # Configure login
 login_manager = LoginManager()
@@ -43,6 +37,15 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///items.db'
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
+def calculate_order_amount(items):
+    cart_items = db.session.query(Cart).filter_by(user_id=current_user.id).all()
+    print (f"Number of cart items is {len(cart_items)}")
+    total_price = sum(item.price * item.quantity for item in cart_items)
+    # Replace this constant with a calculation of the order's amount
+    # Calculate the order total on the server to prevent
+    # people from directly manipulating the amount on the client
+    # return 1400
+    return total_price
 def admin_only(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -247,6 +250,27 @@ def buy_now():
         print(f"Buying {item.quantity} of {item.title} for {item.price} each")
     # db.session.commit()
     return render_template("success.html", cart_items=cart_items)
+
+# To do this right, we'll have to follow the instructions at https://docs.stripe.com/payments/quickstart
+# I'm stopping now, since I need to move on.
+@app.route('/create-payment', methods=['POST'])
+def create_payment():
+    try:
+        data = json.loads(request.data)
+        # Create a PaymentIntent with the order amount and currency
+        intent = stripe.PaymentIntent.create(
+            amount=calculate_order_amount(data['items']),
+            currency='usd',
+            # In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+            automatic_payment_methods={
+                'enabled': True,
+            },
+        )
+        return jsonify({
+            'clientSecret': intent['client_secret']
+        })
+    except Exception as e:
+        return jsonify(error=str(e)), 403
 
 if __name__ == "__main__":
     app.run(debug=True, port=5002)
