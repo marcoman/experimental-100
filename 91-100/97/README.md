@@ -1,47 +1,38 @@
 # Overview
 
-This is the day 96 assignment.
+This is the day 97 assignment.
 
 ## _From the course:_
-120 minutes to complete
-1,432 student solutions
-Build a custom website using an API that you find interesting.
+200 minutes to complete
+1,335 student solutions
+An eCommerce website with payment processing.
 
-Using what you have learnt about HTTP request and REST APIs, in today's project you will build a website that uses data from a public API.
+Using what you have learnt by building the blog website using Flask, you're now going to build your own eCommerce website. Your website needs to have a working cart and checkout.
 
-For example, previously we create a rain alert app using a weather API. We also created an ISS tracker and looking into Bitcoin prices, all using a public API.
+It should be able to display items for sale and take real payment from users.
 
-Today, you get to work on an API that you find interesting and build a service or website based on that API.
+It should have login/registration authentication features.
 
-Here are some example APIs from the course
+Here is an example website:
+https://store.waitbutwhy.com/
 
-- These appear to work
-    - [Brewery Data](https://www.openbrewerydb.org/?ref=public-apis)
-    - [Spelling and Grammar Check API](https://www.perfecttense.com/api)
-    - [Sound Effects API](https://freesound.org/docs/api/index.html?ref=public-apis)
-    - [Lord of the Rings API]()https://the-one-api.dev/
-    - [Art Data](https://developers.artsy.net/v2/)
-    - [Stock Market Data](https://marketstack.com/)
-    - [Barcode Generator/Recognition](https://www.cloudmersive.com/barcode-api?ref=public-apis)
 
-- These do not appear to work
-    - [Dictionary API](https://owlbot.info/?ref=public-apis)
-    - [ESPN Data](http://www.espn.com/apis/devcenter/io-docs.html?ref=public-apis)
-    - [Food Facts API](https://documenter.getpostman.com/view/8470508/SVtN3Wzy)
-    - [Harry Potter Data](https://www.potterapi.com/?ref=public-apis)
-    - [Elephant Data](https://elephant-api.herokuapp.com/?ref=public-apis)
-
-    - [New York Subway Data](http://nycpulse.herokuapp.com/api)
+You should consider using the Stripe API:
+https://stripe.com/docs/payments/checkout
 
 
 ## My comments:
+I finished early.  The main outstanding item is the connection to Stripe for my cart.
 
+I can send users to static (easy) links with defined items, but I know the better option is to build the shopping cart and then we'll calculate total cost and taxes.
 
-I appreciate the sample APIs.  I will probably use one of those.
-I am using the sound affects API to get a list of sounds, and present their links.  However, I won't download at this time.
-This is a proof-of-concept example, where i display a page with a default list, and there are download links to get the files.
-I also have a query link that takes you to a page where you can enter a new query string.  This redirects to the main page to show you the files and their download links.
-The download is only allowed if you are logged on.
+See this page for more details:
+https://docs.stripe.com/payments/checkout/how-checkout-works
+
+I have a stripe account, and I can see the benefit of using their service to collect payments on my behalf.
+
+This could be very interesting!
+
 
 # Running
 
@@ -57,8 +48,6 @@ flask --app main run
 
 # TODOs
 
-- Add pagination to the screen, to let people see additional pages.
-- Consider adding the capability to play the sound in-line.
-- reduce the number of rows to make the screen nicer to see.  
-- Add additional data, perhaps a link to the license.
-- display the page's context, in terms of the search word
+- Finalize the connection from my one-premise (laptop) server to the web application to complete a [Checkout session.](https://docs.stripe.com/payments/checkout/how-checkout-works?ui=embedded-form#session)
+- Allow people to delete items from their cart.
+- Allow people to do a + or - to the quantity of their cart.
