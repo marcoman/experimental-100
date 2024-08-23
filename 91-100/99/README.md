@@ -26,8 +26,14 @@ I'm sure that you'll discover many more questions that you can formulate and ans
 
 ## My comments:
 
+This took longer than 90 minutes, perhaps 3 hours.
+Good exercise and reminder of using DataFrames.
+I also took a little bit of liberty to create refined charts, a few colors, some fonting.
+
 
 # Running
+
+This is a jupyter notebook.
 
 # External Links
 
