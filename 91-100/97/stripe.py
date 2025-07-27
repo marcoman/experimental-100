@@ -7,7 +7,7 @@ import os
 import stripe
 
 # Read the strip api key from the environment variable STRIPE_SECRET_KEY
-stripe.api_key = os.environ().get('STRIPE_SECRET_KEY')
+stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
 
 from flask import Flask, render_template, jsonify, request
 
